@@ -6,8 +6,8 @@
     the metadata displayed in the website.
     <br />
     <a href="/dumpget" nopjax>
-        <img src="/static/dump.svg" />
         Get dump
+        <img src="/static/dump.svg" />
     </a>
 
 </div>
