@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package defs;
+
+message RadioOutStats {
+    string Generated = 1;
+    uint32 BootlegCount = 2;
+    uint32 AudioCount = 3;
+    uint32 VideoCount = 4;
+    uint32 MiscCount = 5;
+    uint32 FileCount = 6;
+    uint32 FileUniqueCount = 7;
+    uint64 ShareSize = 8;
+    uint64 ShareUniqueSize = 9;
+    uint64 ShowCount = 10;
+    string DateEarliest = 11;
+    string DateLatest = 12;
+    string DateLastBootleg = 13;
+}
+
+message RadioShow {
+    string Id = 1;
+    string Artist = 2;
+    string Date = 3;
+    string DateMod = 4;
+    string City = 5;
+    string CountryCode = 6;
+    string Tour = 7;
+    double Lat = 8;
+    double Long = 9;
+    map<string, string> Url = 10;
+    uint32 AudioCount = 11;
+    uint32 VideoCount = 12;
+    uint32 MiscCount  = 13;
+}
+
+message RadioBootlegFile {
+    string Name = 1;
+    bytes TTH = 2;
+    uint64 Size = 3;
+    double Duration = 4;
+}
+
+message RadioBootleg {
+    string Id = 1;
+    string Show = 2;
+    google.protobuf.Timestamp FirstSeen = 3;
+    string Type = 4;
+    uint64 Size = 5;
+    string Name = 6;
+    repeated RadioBootlegFile Files = 7;
+    string MinfoFormat = 8;
+    string MinfoAudioCodec = 9;
+    int32 MinfoAudioChannels = 10;
+    int32 MinfoAudioDepth = 11;
+    int32 MinfoAudioRate = 12;
+    string MinfoVideoCodec = 13;
+    int32 MinfoVideoHeight = 14;
+    string Finfo = 15;
+    double Duration = 16;
+}

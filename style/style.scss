@@ -1,0 +1,253 @@
+
+@import "../node_modules/breakpoint-sass/stylesheets/breakpoint.scss";
+
+@import "reset.scss";
+@import "animations.scss";
+
+@import url('https://fonts.googleapis.com/css?family=Muli:200,300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Cutive+Mono');
+
+$page_max_width: 1100px;
+$header_height: 80px;
+$header_height_tablet: 60px;
+
+$sep_color: rgb(120, 120, 120);
+$white_hover: rgba(0, 0, 0, 0.15);
+
+$amsp1: rgb(240, 240, 240);
+$amsp2: #191919;
+
+@mixin tablet {
+    @include breakpoint(max-width 768.99999px) {
+        @content
+    }
+}
+@mixin not_tablet {
+    @include breakpoint(min-width 769px) {
+        @content
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+html, body, body > .inner {
+    height: 100%;
+}
+body {
+    font-family: 'Muli', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: white;
+    overflow-y: scroll; // always show scrollbar
+
+    > .inner {
+        display: block;
+        animation: .4s fadeIn;
+    }
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+@mixin link_hover {
+    opacity: .6;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+        @include link_hover;
+    }
+}
+
+header {
+    @include not_tablet {
+        height: $header_height;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+    }
+
+    #menu-toggle {
+        display: none;
+    }
+    label {
+        display: none;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        margin-left: 20px;
+        margin-top: ($header_height_tablet - 40px - 2px) / 2;
+        margin-bottom: ($header_height_tablet - 40px - 2px) / 2;
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    @include tablet {
+        label {
+            display: block;
+        }
+        #menu-toggle:checked + label {
+            background: rgb(100, 100, 100);
+            transition: .25s;
+        }
+        #menu-toggle:checked + label + nav {
+            display: block;
+        }
+    }
+    nav {
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 13px;
+        @include not_tablet {
+            height: 100%;
+        }
+        @include tablet {
+            display: none;
+            animation: .25s fadeIn;
+            background: rgb(100, 100, 100);
+        }
+
+        ul {
+            height: 100%;
+            @include not_tablet {
+                display: flex;
+            }
+        }
+        li {
+            @include tablet {
+                display: block;
+            }
+        }
+        a {
+            @include not_tablet {
+                height: 100%;
+                padding: 0 25px;
+                display: block;
+                line-height: $header_height;
+            }
+            @include tablet {
+                display: block;
+                padding: 30px 0;
+                text-align: center;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        a.current {
+            @include not_tablet {
+                position: relative;
+                &:after {
+                    content: "";
+                    width: 100%;
+                    height: 3px;
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: white;
+                }
+            }
+        }
+    }
+
+    a.logo {
+        display: none;
+        @include tablet {
+            display: flex;
+        }
+        align-items: center;
+        width: 180px;
+        height: $header_height_tablet;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+
+        img {
+            height: 32px;
+            width: 100%;
+        }
+    }
+}
+
+main {
+    display: block; // for ie11
+    max-width: $page_max_width;
+    margin: auto;
+    min-height: calc(100% - #{$header_height});
+    position: relative;
+    padding: 0 20px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    @include tablet {
+        padding-left: 10px;
+        padding-right: 10px;
+        border-top: 1px solid $sep_color;
+        &.front {
+            padding-top: 20px;
+            border-top: none;
+        }
+    }
+
+    .title {
+        .parent {
+            text-transform: uppercase;
+            font-weight: 400;
+            font-size: 18px;
+            color: rgb(200, 200, 200);
+
+            @include tablet {
+                font-size: 15px;
+            }
+        }
+        h1 {
+            word-wrap: break-word;
+            font-size: 38px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            @include tablet {
+                font-size: 28px;
+            }
+        }
+    }
+}
+
+footer {
+    background: black;
+    padding: 0 5px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-size: 11px;
+    text-align: center;
+
+    .source {
+        img {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-top: -2px;
+            margin-right: 3px;
+        }
+    }
+}
+
+@import "infinitelist.scss";
+@import "inputs.scss";
+@import "scrollable.scss";
+@import "controlledlist.scss";
+@import "various.scss";
+
+@import "front.scss";
+@import "bootleg.scss";
+@import "bootlegs.scss";
+@import "show.scss";
+@import "shows.scss";
+@import "stats.scss";
+@import "dump.scss";

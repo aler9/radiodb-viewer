@@ -1,0 +1,52 @@
+
+#bootlegs > div {
+    @include controlledlist;
+    font-size: 90%;
+
+    a.entry {
+        > span {
+            &:not(:last-child) {
+                padding-right: 30px;
+                @include tablet {
+                    padding-right: 10px;
+                }
+            }
+            &.tour {
+                text-align: left;
+                width: 40px;
+                padding-right: 0;
+                img {
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                }
+            }
+            &.name {
+                text-align: left;
+                padding-right: 10px;
+
+                .show {
+                    color: rgb(190, 190, 190);
+                }
+                h2 {
+                    font-size: 14px;
+                    word-wrap: break-word;
+                }
+                .released {
+                    color: rgb(190, 190, 190);
+                }
+            }
+            &.duration, &.res, &.size {
+                width: 1%;
+                white-space: nowrap; // forbid newlines
+                text-align: right;
+                @include tablet {
+                    display: none;
+                }
+            }
+            &.duration, &.res {
+                text-align: center;
+            }
+        }
+    }
+}

@@ -1,0 +1,74 @@
+
+#show {
+    margin: auto;
+    text-align: center;
+
+    section {
+        margin-bottom: 35px;
+        h2 {
+            text-transform: uppercase;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+    }
+
+    .info ul {
+        @include list;
+
+        li {
+            &.tour img, &.country img {
+                display: inline-block;
+                width: 22px;
+                height: 22px;
+                vertical-align: middle;
+                margin-right: 5px;
+            }
+            &.show a {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .bootlegs > div {
+        @include tabular;
+        font-size: 95%;
+        a {
+            @include tablet {
+                padding: 20px 0;
+            }
+            > span {
+                @include not_tablet {
+                    padding: 20px 0;
+                    &:not(:last-child) {
+                        padding-right: 25px;
+                    }
+                    &:not(:first-child) {
+                        width: 1%;
+                    }
+                    &.name {
+                        text-align: left;
+                    }
+                    &.duration, &.res, &.size {
+                        white-space: nowrap; // forbid newlines
+                    }
+                    &.size {
+                        text-align: right;
+                    }
+                }
+                @include tablet {
+                    &.name {
+                        padding-bottom: 10px;
+                    }
+                }
+                &.name {
+                    padding-right: 10px;
+
+                    .released {
+                        font-size: 85%;
+                        color: rgb(190, 190, 190);
+                    }
+                }
+            }
+        }
+    }
+}

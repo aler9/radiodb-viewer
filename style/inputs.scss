@@ -1,0 +1,197 @@
+
+.button-clear {
+    display: block;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    cursor: pointer;
+    text-align: center;
+    background: white;
+    color: black;
+    border: none;
+    font-weight: 400;
+    user-select: none;
+    &:hover {
+        @include link_hover;
+    }
+}
+
+.select {
+    background: white;
+    color: black;
+    height: 32px;
+    line-height: 32px;
+    font-weight: 400;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-left: 10px;
+
+    &:before {
+        content: "";
+        width: 30px;
+        height: 70%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        background-image: url(/static/select.svg);
+        background-size: 100% 100%;
+    }
+    &.opened:before {
+        transform: rotate(180deg);
+    }
+
+    .options {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: calc(100% + 3px);
+        background: white;
+        animation: .25s fadeIn;
+        z-index: 1;
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+
+        > div {
+            padding: 5px 0;
+            padding-left: 10px;
+            &:hover {
+                background: $white_hover;
+            }
+        }
+    }
+}
+
+.text-input {
+    position: relative;
+
+    input {
+        // normalization
+        appearance: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        font-family: inherit;
+        font-size: inherit;
+        &::-ms-clear { // disable the native clear button in IE/edge
+            display: none;
+        }
+
+        display: block;
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        padding-left: 15px;
+    }
+    &.clearable input {
+        padding-right: 32px;
+    }
+    .clear {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 36px;
+        animation: .25s fadeIn;
+        background-image: url(/static/reset.svg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+}
+
+$knob_size: 18px;
+$slider_height: 6px;
+
+.range-select {
+    user-select: none;
+    padding-bottom: ($knob_size - $slider_height)/2;
+
+    .max {
+        float: right;
+    }
+    .slider {
+        margin-left: $knob_size/2;
+        margin-right: $knob_size/2;
+        margin-top: 10px;
+        height: $slider_height;
+        background: rgb(140, 140, 140);
+        position: relative;
+    }
+    .range {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        background: white;
+
+        .knob-left, .knob-right {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            width: $knob_size;
+            height: $knob_size;
+            border-radius: $knob_size/2;
+            background: white;
+            cursor: pointer;
+            border: 1px solid black;
+        }
+        .knob-left {
+            left: 0;
+            margin-left: - $knob_size/2;
+        }
+        .knob-right {
+            right: 0;
+            margin-right: - $knob_size/2;
+        }
+    }
+}
+
+.multichoices {
+    text-align: left;
+    font-size: 12px;
+    > .content {
+        max-height: 200px;
+    }
+
+    ul > li {
+        display: block;
+        user-select: none;
+        cursor: pointer;
+        line-height: 28px;
+        height: 28px;
+        overflow: hidden;
+        &:hover {
+            @include link_hover;
+        }
+
+        .checkbox {
+            display: inline-block;
+            background: white;
+            margin-right: 8px;
+            vertical-align: middle;
+            width: 18px;
+            height: 18px;
+            position: relative;
+            margin-top: -1px;
+            cursor: pointer;
+        }
+        .checkbox:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: url(/static/checked.svg) no-repeat;
+            background-size: 100% 100%;
+            background-position: 18px 18px; // preload and hide
+        }
+        &.checked .checkbox:after {
+            background-position: 0 0;
+            animation: .2s fadeIn;
+        }
+    }
+}

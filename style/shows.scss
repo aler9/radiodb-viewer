@@ -1,0 +1,54 @@
+
+#shows > div {
+    @include controlledlist;
+    font-size: 90%;
+
+    a.entry {
+        > span {
+            &:not(:last-child) {
+                padding-right: 30px;
+                @include tablet {
+                    padding-right: 10px;
+                }
+            }
+            &.tour {
+                text-align: left;
+                width: 40px;
+                padding-right: 0;
+                img {
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                }
+            }
+            &.country {
+                width: 40px;
+                padding-right: 0;
+                img {
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                }
+            }
+            &.count {
+                text-align: right;
+                width: 160px;
+                @include tablet {
+                    width: 80px;
+                }
+
+                span {
+                    padding: 0 6px;
+                    white-space: nowrap; // forbid newlines
+                    img {
+                        display: inline-block;
+                        width: 18px;
+                        height: 18px;
+                        vertical-align: middle;
+                        margin-top: -2px;
+                    }
+                }
+            }
+        }
+    }
+}

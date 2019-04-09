@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+import "pdefs.proto";
+
+package shared;
+
+service Database {
+    rpc Front(FrontReq) returns (FrontRes) {}
+    rpc Stats(StatsReq) returns (StatsRes) {}
+    rpc Search(SearchReq) returns (SearchRes) {}
+
+    rpc ShowsFiltered(ShowsFilteredReq) returns (ShowsFilteredRes) {}
+    rpc Show(ShowReq) returns (ShowRes) {}
+
+    rpc BootlegsFiltered(BootlegsFilteredReq) returns (BootlegsFilteredRes) {}
+    rpc Bootleg(BootlegReq) returns (BootlegRes) {}
+    rpc BootlegRand(BootlegRandReq) returns (BootlegRandRes) {}
+}
+
+message FrontReq {
+}
+
+message FrontRes {
+    repeated defs.RadioShow LastShows = 1;
+    repeated defs.RadioBootleg LastBootlegs = 2;
+    map<string, defs.RadioShow> LastBootlegShows = 3;
+    defs.RadioOutStats Stats = 4;
+}
+
+message StatsReq {
+}
+
+message StatsRes {
+    defs.RadioOutStats Stats = 1;
+    map<uint32, int32> PerYearShows = 2;
+    map<uint32, int32> PerYearBootlegs = 3;
+    map<uint32, uint64> PerYearSize = 4;
+}
+
+message SearchReq {
+    string Query = 1;
+}
+
+message SearchResItem {
+    string Url = 1;
+    string Title = 2;
+}
+
+message SearchRes {
+    repeated SearchResItem Items = 1;
+}
+
+message ShowsFilteredReq {
+    string Sort = 1;
+    string Text = 2;
+    repeated string Artist = 3;
+    repeated string Tour = 4;
+    repeated uint32 Year = 5;
+    repeated string Country = 6;
+    repeated string Media = 7;
+    uint32 CurPage = 8;
+}
+
+message ShowsFilteredChoices {
+    map<string, string> Artist = 1;
+    map<string, string> Tour = 2;
+    repeated uint32 Year = 3;
+    map<string, string> Country = 4;
+    map<string, string> Media = 5;
+}
+
+message ShowsFilteredRes {
+    bool FullyLoaded = 1;
+    ShowsFilteredChoices Choices = 2;
+    repeated defs.RadioShow Items = 3;
+}
+
+message ShowReq {
+    string id = 1;
+}
+
+message ShowRes {
+    defs.RadioShow Item = 1;
+    repeated defs.RadioBootleg Bootlegs = 2;
+}
+
+message BootlegsFilteredReq {
+    string Sort = 1;
+    string Text = 2;
+    repeated string Media = 3;
+    repeated string AudioRes = 4;
+    repeated string VideoRes = 5;
+    uint32 CurPage = 6;
+}
+
+message BootlegsFilteredChoices {
+    map<string, string> Media = 1;
+    map<string, string> AudioRes = 2;
+    map<string, string> VideoRes = 3;
+}
+
+message BootlegsFilteredRes {
+    bool FullyLoaded = 1;
+    BootlegsFilteredChoices Choices = 2;
+    map<string, defs.RadioShow> Shows = 3;
+    repeated defs.RadioBootleg Items = 4;
+}
+
+message BootlegReq {
+    string id = 1;
+}
+
+message BootlegRes {
+    defs.RadioBootleg Item = 1;
+    defs.RadioShow Show = 2;
+}
+
+message BootlegRandReq {
+}
+
+message BootlegRandRes {
+    defs.RadioBootleg Item = 1;
+}
