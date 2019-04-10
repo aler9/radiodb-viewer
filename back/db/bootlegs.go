@@ -8,7 +8,6 @@ import (
     "math/rand"
     "rdbviewer/back/shared"
     "rdbviewer/back/defs"
-    dctk "github.com/gswly/dctoolkit"
 )
 
 func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFilteredReq) (*shared.BootlegsFilteredRes,error) {
@@ -47,15 +46,10 @@ func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
         if len(textKeywords) > 0 && func() bool {
             // search by TTH
             if len(textKeywords) == 1 && len(FirstKey(textKeywords)) == 39 {
-                tth,err := dctk.TigerHashFromBase32(strings.ToUpper(FirstKey(textKeywords)))
-                if err != nil {
-                    return true
-                }
+                tth := strings.ToUpper(FirstKey(textKeywords))
 
                 for _,f := range b.Files {
-                    var ftth dctk.TigerHash
-                    copy(ftth[:], f.TTH)
-                    if ftth == tth {
+                    if f.TTH == tth {
                         return false
                     }
                 }

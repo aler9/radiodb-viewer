@@ -8,7 +8,6 @@ import (
     "context"
     "rdbviewer/back/shared"
     "rdbviewer/back/defs"
-    dctk "github.com/gswly/dctoolkit"
 )
 
 func (db *Database) Search(ctx context.Context, req *shared.SearchReq) (*shared.SearchRes, error) {
@@ -21,17 +20,12 @@ func (db *Database) Search(ctx context.Context, req *shared.SearchReq) (*shared.
 
     // search by TTH
     if len(queryKeywords) == 1 && len(FirstKey(queryKeywords)) == 39 {
-        tth,err := dctk.TigerHashFromBase32(strings.ToUpper(FirstKey(queryKeywords)))
-        if err != nil {
-            return out, nil
-        }
+        tth := strings.ToUpper(FirstKey(queryKeywords))
 
         if b := func() *defs.RadioBootleg {
-            var ftth dctk.TigerHash
             for _,b := range db.db.Bootlegs {
                 for _,f := range b.Files {
-                    copy(ftth[:], f.TTH)
-                    if ftth == tth {
+                    if f.TTH == tth {
                         return b
                     }
                 }

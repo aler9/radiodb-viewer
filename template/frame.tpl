@@ -42,6 +42,12 @@
 </main>
 
 <footer>
+    <a href="https://github.com/gswly/radiodb-viewer" target="_blank" class="source">
+        <img src="/static/github.svg">
+        source code
+    </a>
+    <br />
+    <br />
     This site is not affiliated with any of the mentioned artists.
     <br />
     Use of low-resolution album covers qualifies as fair use under the copyright law of the United States.
@@ -51,12 +57,6 @@
     Audio and video materials mentioned in the site are exclusively non-commercial, non-official and freely available recordings.
     <br />
     Report abuses at <a href="mailto:gswly.dev@gmail.com">gswly.dev@gmail.com</a> to have an entry removed.
-    <br />
-    <br />
-    <a href="https://github.com/gswly/radiodb-viewer" target="_blank" class="source">
-        <img src="/static/github.svg">
-        source code
-    </a>
 </footer>
 
 </div>

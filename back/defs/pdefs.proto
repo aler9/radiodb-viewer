@@ -38,7 +38,7 @@ message RadioShow {
 
 message RadioBootlegFile {
     string Name = 1;
-    bytes TTH = 2;
+    string TTH = 2;
     uint64 Size = 3;
     double Duration = 4;
 }

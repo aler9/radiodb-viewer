@@ -5,18 +5,19 @@ import (
     "time"
     "strings"
     "context"
+    "net/url"
     "html/template"
     "github.com/gin-gonic/gin"
     "github.com/dustin/go-humanize"
-    dctk "github.com/gswly/dctoolkit"
     "rdbviewer/back/shared"
     "rdbviewer/back/defs"
 )
 
 func MagnetLink(f *defs.RadioBootlegFile) string {
-    var ftth dctk.TigerHash
-    copy(ftth[:], f.TTH)
-    return dctk.MagnetLink(f.Name, f.Size, ftth)
+    return fmt.Sprintf("magnet:?xt=urn:tree:tiger:%s&xl=%d&dn=%s",
+        f.TTH,
+        f.Size,
+        url.QueryEscape(f.Name))
 }
 
 func SafeHtmlNewlines(in string) template.HTML {
@@ -81,11 +82,7 @@ func (h *Router) onPageBootleg(c *gin.Context) {
                             }
                             return shared.FormatDuration(f.Duration)
                         }(),
-                        "TTH": func() string {
-                            var ftth dctk.TigerHash
-                            copy(ftth[:], f.TTH)
-                            return ftth.String()
-                        }(),
+                        "TTH": f.TTH,
                         "Magnet": template.URL(MagnetLink(f)),
                     })
                 }
