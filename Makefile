@@ -47,7 +47,6 @@ dev-inner:
 
 	docker run --rm \
 		--read-only \
-		--tmpfs /tmp \
 		-v radiodb:/data \
 		-p 7446:7446 \
 		--name radiodb-viewer-dev \
