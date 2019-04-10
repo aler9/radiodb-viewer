@@ -44,9 +44,13 @@
 <footer>
     This site is not affiliated with any of the mentioned artists.
     <br />
+    Use of low-resolution album covers qualifies as fair use under the copyright law of the United States.
+    <br />
     This site does not host any file and is merely a tracker.
     <br />
     Audio and video materials mentioned in the site are exclusively non-commercial, non-official and freely available recordings.
+    <br />
+    Report abuses at <a href="mailto:gswly.dev@gmail.com">gswly.dev@gmail.com</a> to have an entry removed.
     <br />
     <br />
     <a href="https://github.com/gswly/radiodb-viewer" target="_blank" class="source">
