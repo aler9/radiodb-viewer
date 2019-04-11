@@ -35,7 +35,6 @@ func TourLabel(s *defs.RadioShow) (string) {
         case "famil":   return "Familial tour"
     }
     panic("tour not recognized")
-    return ""
 }
 
 func ArtistLabel(s *defs.RadioShow) string {
@@ -48,7 +47,17 @@ func ArtistLabel(s *defs.RadioShow) string {
     case "junun":       return "Junun"
     }
     panic("artist not recognized")
-    return ""
+}
+
+func SetlistUrlLabel(url string) string {
+    switch url {
+    case "citizeninsane":   return "Citizen Insane"
+    case "greenplastic":    return "Green Plastic Radiohead"
+    case "setlistfm":       return "Setlist.fm"
+    case "songkick":        return "Songkick"
+    case "thomthomthom":    return "Thom thom thom"
+    }
+    panic("url not recognized")
 }
 
 func CountryLabel(s *defs.RadioShow) string {
@@ -115,16 +124,4 @@ func AudioCodecLabel(b *defs.RadioBootleg) string {
 
 func MediaTypeLabel(media string) string {
     return strings.Title(media)
-}
-
-func SetlistUrlLabel(url string) string {
-    switch url {
-    case "citizeninsane": return "Citizen Insane"
-    case "greenplastic": return "Green Plastic Radiohead"
-    case "setlistfm": return "Setlist.fm"
-    case "songkick": return "Songkick"
-    case "thomthomthom": return "Thom thom thom"
-    }
-    panic("url not recognized")
-    return ""
 }
