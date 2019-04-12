@@ -72,12 +72,13 @@ func AudioResolution(b *defs.RadioBootleg) string {
     if b.MinfoAudioRate == 0 {
         return "unknown"
     }
-    ret := fmt.Sprintf("%.1fkhz ", float64(b.MinfoAudioRate)/1000.0)
+    ret := ""
     if b.MinfoAudioDepth != 0 {
         ret += fmt.Sprintf("%dbit", b.MinfoAudioDepth)
     } else {
         ret += "lossy"
     }
+    ret += fmt.Sprintf(" %.1fkhz", float64(b.MinfoAudioRate)/1000.0)
     return ret
 }
 
