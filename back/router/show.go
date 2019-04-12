@@ -34,7 +34,7 @@ func (h *Router) onPageShow(c *gin.Context) {
         for k,v := range s.Url {
             ret = append(ret, gin.H{
                 "Url": v,
-                "Name": shared.SetlistUrlLabel(k),
+                "Name": shared.LabelSetlist(k),
             })
         }
         return ret
@@ -46,25 +46,25 @@ func (h *Router) onPageShow(c *gin.Context) {
 
     GinTpl(c, h.frameWrapper(c, FrameConf{
         Title: fmt.Sprintf("%s, %s, %s, %s",
-            shared.ArtistLabel(s), d.Format("2 January 2006"), s.City, shared.CountryLabel(s)),
+            shared.LabelArtist(s), d.Format("2 January 2006"), s.City, shared.LabelCountry(s)),
         Content: TplExecute(h.templates["show"], gin.H{
             "Date": d.Format("2 January 2006"),
-            "ArtistLong": shared.ArtistLabel(s),
+            "ArtistLong": shared.LabelArtist(s),
             "City": s.City,
             "CountryCode": s.CountryCode,
-            "CountryCodeShort": shared.CountryCodeShort(s),
-            "CountryLabel": shared.CountryLabel(s),
+            "LabelCountryCode": shared.LabelCountryCode(s),
+            "LabelCountry": shared.LabelCountry(s),
             "Urls": urls,
             "Tour": s.Tour,
-            "TourLabel": shared.TourLabel(s),
+            "LabelTour": shared.LabelTour(s),
             "Bootlegs": func() (ret []gin.H) {
                 for _,b := range bs {
                     ret = append(ret, gin.H{
                         "Id": b.Id,
                         "Name": b.Name,
                         "Type": b.Type,
-                        "TypeLong": shared.MediaTypeLabel(b.Type),
-                        "Res": shared.ShortResolution(b),
+                        "TypeLong": shared.LabelMediaType(b.Type),
+                        "Res": shared.LabelShortResolution(b),
                         "Duration": func() string {
                             if b.Duration == 0 {
                                 return ""

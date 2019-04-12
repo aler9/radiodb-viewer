@@ -16,8 +16,8 @@
                 <span>Show</span>
                 <span>
                     <a href="{{ .ShowUrl }}">
-                        <img src="/static/{{ .Tour }}.png" title="{{ .TourLabel }}" />
-                        <img src="/static/countryflag/{{ .CountryCodeShort }}.png" title="{{ .CountryLabel }}" />
+                        <img src="/static/{{ .Tour }}.png" title="{{ .LabelTour }}" />
+                        <img src="/static/countryflag/{{ .LabelCountryCode }}.png" title="{{ .LabelCountry }}" />
                         <span>
                             {{ .ShowArtist }}
                             <br />{{ .ShowDate }}

@@ -25,10 +25,10 @@ func (db *Database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
     for _,s := range db.db.Shows {
         // choices
         if _,ok := res.Choices.Artist[s.Artist]; !ok {
-            res.Choices.Artist[s.Artist] = shared.ArtistLabel(s)
+            res.Choices.Artist[s.Artist] = shared.LabelArtist(s)
         }
         if _,ok := res.Choices.Tour[s.Tour]; !ok {
-            res.Choices.Tour[s.Tour] = shared.TourLabel(s)
+            res.Choices.Tour[s.Tour] = shared.LabelTour(s)
         }
         d,_ := time.Parse("2006-01-02", s.Date)
         year := shared.Atoui32(d.Format("2006"))
@@ -39,21 +39,21 @@ func (db *Database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
             res.Choices.Year[1] = year
         }
         if _,ok := res.Choices.Country[s.CountryCode]; !ok {
-            res.Choices.Country[s.CountryCode] = shared.CountryLabel(s)
+            res.Choices.Country[s.CountryCode] = shared.LabelCountry(s)
         }
         if s.AudioCount > 0 {
             if _,ok := res.Choices.Media["audio"]; !ok {
-                res.Choices.Media["audio"] = shared.MediaTypeLabel("audio")
+                res.Choices.Media["audio"] = shared.LabelMediaType("audio")
             }
         }
         if s.VideoCount > 0 {
             if _,ok := res.Choices.Media["video"]; !ok {
-                res.Choices.Media["video"] = shared.MediaTypeLabel("video")
+                res.Choices.Media["video"] = shared.LabelMediaType("video")
             }
         }
         if s.MiscCount > 0 {
             if _,ok := res.Choices.Media["misc"]; !ok {
-                res.Choices.Media["misc"] = shared.MediaTypeLabel("misc")
+                res.Choices.Media["misc"] = shared.LabelMediaType("misc")
             }
         }
 

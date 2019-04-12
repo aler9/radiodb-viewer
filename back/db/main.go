@@ -44,10 +44,10 @@ func main() {
                 db.showKeywords[s.Id][word] = struct{}{}
             }
         }
-        pushText(shared.ArtistLabel(s))
+        pushText(shared.LabelArtist(s))
         pushText(s.City)
         pushText(s.CountryCode)
-        pushText(shared.CountryLabel(s))
+        pushText(shared.LabelCountry(s))
         d,_ := time.Parse("2006-01-02", s.Date)
         pushText(d.Format("01 02 2006 January"))
     }
@@ -64,10 +64,10 @@ func main() {
         pushText(b.Name)
 
         s := db.db.Shows[b.Show]
-        pushText(shared.ArtistLabel(s))
+        pushText(shared.LabelArtist(s))
         pushText(s.City)
         pushText(s.CountryCode)
-        pushText(shared.CountryLabel(s))
+        pushText(shared.LabelCountry(s))
         d,_ := time.Parse("2006-01-02", s.Date)
         pushText(d.Format("01 02 2006 January"))
     }

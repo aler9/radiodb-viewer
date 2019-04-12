@@ -5,7 +5,7 @@
             <a href="/shows">Show</a>
         </div>
         <h1>
-            {{ .ArtistLong }}, {{ .Date }}, {{ .City }}, {{ .CountryLabel }}
+            {{ .ArtistLong }}, {{ .Date }}, {{ .City }}, {{ .LabelCountry }}
         </h1>
     </div>
 
@@ -26,11 +26,11 @@
             </li>
             <li class="country">
                 <span>Country</span>
-                <span><img src="/static/countryflag/{{ .CountryCodeShort }}.png" /> {{ .CountryLabel }}</span>
+                <span><img src="/static/countryflag/{{ .LabelCountryCode }}.png" /> {{ .LabelCountry }}</span>
             </li>
             <li class="tour">
                 <span>Tour</span>
-                <span><img src="/static/{{ .Tour }}.png" /> {{ .TourLabel }}</span>
+                <span><img src="/static/{{ .Tour }}.png" /> {{ .LabelTour }}</span>
             </li>
             <li>
                 <span>Setlist</span>

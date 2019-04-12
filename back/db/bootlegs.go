@@ -25,18 +25,18 @@ func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
     for _,b := range db.db.Bootlegs {
         // choices
         if _,ok := res.Choices.Media[b.Type]; !ok {
-            res.Choices.Media[b.Type] = shared.MediaTypeLabel(b.Type)
+            res.Choices.Media[b.Type] = shared.LabelMediaType(b.Type)
         }
         var audioRes string
         if b.Type == "audio" {
-            audioRes = shared.AudioResolution(b)
+            audioRes = shared.LabelAudioResolution(b)
             if _,ok := res.Choices.AudioRes[audioRes]; !ok {
                 res.Choices.AudioRes[audioRes] = audioRes
             }
         }
         var videoRes string
         if b.Type == "video" {
-            videoRes = shared.VideoResolution(b) //fmt.Sprintf("%dp", b.MinfoVideoHeight)
+            videoRes = shared.LabelVideoResolution(b) //fmt.Sprintf("%dp", b.MinfoVideoHeight)
             if _,ok := res.Choices.VideoRes[videoRes]; !ok {
                 res.Choices.VideoRes[videoRes] = videoRes
             }

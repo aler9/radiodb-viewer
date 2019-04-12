@@ -35,7 +35,7 @@ func (h *Router) onPageFront(c *gin.Context) {
                     da,_ := time.Parse("2006-01-02", s.Date)
                     ret = append(ret, gin.H{
                         "Id": s.Id,
-                        "Title": fmt.Sprintf("%s, %s", shared.ArtistLabel(s), da.Format("2 January 2006")),
+                        "Title": fmt.Sprintf("%s, %s", shared.LabelArtist(s), da.Format("2 January 2006")),
                         "Country": s.City + ", " + strings.ToUpper(s.CountryCode),
                         "Tour": s.Tour,
                     })

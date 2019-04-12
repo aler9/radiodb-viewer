@@ -1,10 +1,10 @@
 
 <span class="tour">
-    <img src="/static/{{ .Tour }}.png" title="{{ .TourLabel }}" />
+    <img src="/static/{{ .Tour }}.png" title="{{ .LabelTour }}" />
 </span>
 
 <span class="country">
-    <img src="/static/countryflag/{{ .CountryCodeShort }}.png" title="{{ .Country }}" />
+    <img src="/static/countryflag/{{ .LabelCountryCode }}.png" title="{{ .Country }}" />
 </span>
 
 <span class="title">

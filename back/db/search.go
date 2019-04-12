@@ -83,7 +83,7 @@ func (db *Database) Search(ctx context.Context, req *shared.SearchReq) (*shared.
             sd,_ := time.Parse("2006-01-02", sco.Show.Date)
             out.Items = append(out.Items, &shared.SearchResItem{
                 Url: "/shows/" + sco.Show.Id,
-                Title: fmt.Sprintf("%s, %s, %s, %s", shared.ArtistLabel(sco.Show), sd.Format("2 January 2006"), sco.Show.City, strings.ToUpper(sco.Show.CountryCode)),
+                Title: fmt.Sprintf("%s, %s, %s, %s", shared.LabelArtist(sco.Show), sd.Format("2 January 2006"), sco.Show.City, strings.ToUpper(sco.Show.CountryCode)),
             })
         }
     }

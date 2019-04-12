@@ -73,8 +73,8 @@ func (h *Router) onDataBootlegs(c *gin.Context) {
                         "Name": b.Name,
                         "FirstSeen": FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),
                         "Type": b.Type,
-                        "TypeLong": shared.MediaTypeLabel(b.Type),
-                        "Res": shared.ShortResolution(b),
+                        "TypeLong": shared.LabelMediaType(b.Type),
+                        "Res": shared.LabelShortResolution(b),
                         "Duration": func() string {
                             if b.Duration == 0 {
                                 return ""
@@ -83,9 +83,9 @@ func (h *Router) onDataBootlegs(c *gin.Context) {
                         }(),
                         "Size": humanize.Bytes(b.Size),
                         "Show": fmt.Sprintf("%s, %s, %s, %s",
-                            shared.ArtistLabel(s), d.Format("2 Jan 2006"), s.City, strings.ToUpper(s.CountryCode)),
+                            shared.LabelArtist(s), d.Format("2 Jan 2006"), s.City, strings.ToUpper(s.CountryCode)),
                         "Tour": s.Tour,
-                        "TourLabel": shared.TourLabel(s),
+                        "LabelTour": shared.LabelTour(s),
                     }),
                 })
             }

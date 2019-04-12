@@ -1,6 +1,6 @@
 
 <span class="tour">
-    <img src="/static/{{ .Tour }}.png" title="{{ .TourLabel }}" />
+    <img src="/static/{{ .Tour }}.png" title="{{ .LabelTour }}" />
 </span>
 
 <span class="name">
