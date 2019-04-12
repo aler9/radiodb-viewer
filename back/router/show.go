@@ -69,10 +69,10 @@ func (h *Router) onPageShow(c *gin.Context) {
                             if b.Duration == 0 {
                                 return ""
                             }
-                            return shared.FormatDuration(b.Duration)
+                            return FormatDuration(b.Duration)
                         }(),
                         "Size": humanize.Bytes(b.Size),
-                        "FirstSeen": shared.FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),
+                        "FirstSeen": FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),
                     })
                 }
                 return ret

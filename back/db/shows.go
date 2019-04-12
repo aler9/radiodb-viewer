@@ -20,7 +20,7 @@ func (db *Database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
         },
     }
 
-    textKeywords := shared.GetTextKeywords(in.Text, 1)
+    textKeywords := GetTextKeywords(in.Text, 1)
 
     for _,s := range db.db.Shows {
         // choices

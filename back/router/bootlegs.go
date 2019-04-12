@@ -71,7 +71,7 @@ func (h *Router) onDataBootlegs(c *gin.Context) {
                     "cnt": TplExecute(h.templates["bootlegentry"], gin.H{
                         "Id": b.Id,
                         "Name": b.Name,
-                        "FirstSeen": shared.FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),
+                        "FirstSeen": FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),
                         "Type": b.Type,
                         "TypeLong": shared.MediaTypeLabel(b.Type),
                         "Res": shared.ShortResolution(b),
@@ -79,7 +79,7 @@ func (h *Router) onDataBootlegs(c *gin.Context) {
                             if b.Duration == 0 {
                                 return ""
                             }
-                            return shared.FormatDuration(b.Duration)
+                            return FormatDuration(b.Duration)
                         }(),
                         "Size": humanize.Bytes(b.Size),
                         "Show": fmt.Sprintf("%s, %s, %s, %s",

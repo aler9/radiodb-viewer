@@ -20,7 +20,7 @@ func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
         Shows: make(map[string]*defs.RadioShow),
     }
 
-    textKeywords := shared.GetTextKeywords(in.Text, 1)
+    textKeywords := GetTextKeywords(in.Text, 1)
 
     for _,b := range db.db.Bootlegs {
         // choices

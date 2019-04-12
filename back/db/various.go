@@ -2,8 +2,12 @@ package main
 
 import (
     "os"
+    "strings"
     "bufio"
+    "unicode"
     "github.com/json-iterator/go"
+    "golang.org/x/text/transform"
+    "golang.org/x/text/unicode/norm"
     "rdbviewer/back/shared"
 )
 
@@ -30,6 +34,27 @@ func FirstKey(in map[string]struct{}) string {
         return k
     }
     return ""
+}
+
+func GetTextKeywords(in string, minLength int) (map[string]struct{}) {
+    // replace accents
+    t := transform.Chain(norm.NFD, transform.RemoveFunc(func(r rune) bool {
+        return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
+    }), norm.NFC)
+    in,_,_ = transform.String(t, in)
+
+    // to lower
+    in = strings.ToLower(in)
+
+    // split by space
+    ret := make(map[string]struct{})
+    for _,word := range strings.Split(in, " ") {
+        if len(word) < minLength { // remove too short
+            continue
+        }
+        ret[word] = struct{}{}
+    }
+    return ret
 }
 
 func Pagination(curPage uint32, itemsCount uint32, itemsPerPage uint32) (uint32,uint32,bool,bool) {

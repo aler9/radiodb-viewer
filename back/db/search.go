@@ -13,7 +13,7 @@ import (
 func (db *Database) Search(ctx context.Context, req *shared.SearchReq) (*shared.SearchRes, error) {
     out := &shared.SearchRes{}
 
-    queryKeywords := shared.GetTextKeywords(req.Query, 1)
+    queryKeywords := GetTextKeywords(req.Query, 1)
     if len(queryKeywords) == 0 {
         return out, nil
     }

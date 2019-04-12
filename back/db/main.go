@@ -40,7 +40,7 @@ func main() {
     for _,s := range db.db.Shows {
         db.showKeywords[s.Id] = make(map[string]struct{})
         pushText := func(text string) {
-            for word,_ := range shared.GetTextKeywords(text, 2) {
+            for word,_ := range GetTextKeywords(text, 2) {
                 db.showKeywords[s.Id][word] = struct{}{}
             }
         }
@@ -56,7 +56,7 @@ func main() {
     for _,b := range db.db.Bootlegs {
         db.bootlegKeywords[b.Id] = make(map[string]struct{})
         pushText := func(text string) {
-            for word,_ := range shared.GetTextKeywords(text, 2) {
+            for word,_ := range GetTextKeywords(text, 2) {
                 db.bootlegKeywords[b.Id][word] = struct{}{}
             }
         }

@@ -58,7 +58,7 @@ func (h *Router) onPageBootleg(c *gin.Context) {
             "CountryLabel": shared.CountryLabel(s),
             "Tour": s.Tour,
             "TourLabel": shared.TourLabel(s),
-            "FirstSeen": shared.FormatFirstSeen(b.FirstSeen, "2 January 2006"),
+            "FirstSeen": FormatFirstSeen(b.FirstSeen, "2 January 2006"),
             "MinfoFormat": shared.FormatLabel(b),
             "MinfoVideoCodec": shared.VideoCodecLabel(b),
             "MinfoVideoRes": shared.VideoResolution(b),
@@ -69,7 +69,7 @@ func (h *Router) onPageBootleg(c *gin.Context) {
                 if b.Duration == 0 {
                     return "unknown"
                 }
-                return shared.FormatDuration(b.Duration)
+                return FormatDuration(b.Duration)
             }(),
             "Files": func() (ret []gin.H) {
                 for _,f := range b.Files {
@@ -80,7 +80,7 @@ func (h *Router) onPageBootleg(c *gin.Context) {
                             if f.Duration == 0 {
                                 return ""
                             }
-                            return shared.FormatDuration(f.Duration)
+                            return FormatDuration(f.Duration)
                         }(),
                         "TTH": f.TTH,
                         "Magnet": template.URL(MagnetLink(f)),
