@@ -12,5 +12,5 @@ func (h *Router) onPageRandom(c *gin.Context) {
         GinServerErrorText(c)
         return
     }
-    c.Redirect(302, "/bootlegs/" + res.Item.Id)
+    c.Redirect(302, "/bootlegs/" + res.Id)
 }

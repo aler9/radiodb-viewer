@@ -181,11 +181,11 @@ func (db *Database) Bootleg(ctx context.Context, req *shared.BootlegReq) (*share
 func (db *Database) BootlegRand(context.Context, *shared.BootlegRandReq) (*shared.BootlegRandRes,error) {
     res := &shared.BootlegRandRes{}
 
-    var bs []*defs.RadioBootleg
+    var bs []string
     for _,b := range db.db.Bootlegs {
-        bs = append(bs, b)
+        bs = append(bs, b.Id)
     }
-    res.Item = bs[rand.Intn(len(bs))]
+    res.Id = bs[rand.Intn(len(bs))]
 
     return res, nil
 }
