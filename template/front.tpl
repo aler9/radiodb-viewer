@@ -48,8 +48,9 @@
 
         <div class="info">
             <div class="stats">
-                <a href="/stats">Tracking {{ .BootlegCount }} bootlegs,
-                    {{ .ShowCount }} shows,
+                <a href="/stats">
+                    Tracking {{ .ShowCount }} shows,
+                    {{ .BootlegCount }} bootlegs,
                     {{ .ShareSize }} of data
                 </a>
             </div>
