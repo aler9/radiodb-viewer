@@ -12,20 +12,22 @@
     body { background: rgb(35, 35, 35); }
     body > .inner { display: none; }
     </style>
-    <link rel="stylesheet" type="text/css" href="/static/style.css?[RAND]">
-    <script defer src="/static/script.js?[RAND]"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script defer src="/static/script.js"></script>
 </head>
 <body>
 <div class="inner">
 
 <header>
-    {{ if ne .CurPath "/" }}<a class="logo" href="/">
-        <img src="/static/logo.svg?[RAND]" alt="RadioDB" />
-    </a>{{ end }}
+    {{- if ne .CurPath "/" }}
+    <a class="logo" href="/">
+        <img src="/static/logo.svg" alt="RadioDB" />
+    </a>
+    {{- end }}
 
     <input type="checkbox" id="menu-toggle" />
     <label for="menu-toggle">
-        <img src="/static/menu.svg?[RAND]" alt="" />
+        <img src="/static/menu.svg" alt="" />
     </label>
     <nav><ul>
         <li><a href="/">Home</a></li>

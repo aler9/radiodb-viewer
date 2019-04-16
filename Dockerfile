@@ -81,13 +81,16 @@ FROM nodebase AS template
 
 COPY template/*.tpl ./template/
 RUN mkdir -p /build/template \
-    && cp template/*.tpl /build/template/ \
-    && RND=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1) \
-    && sed -i "s/\[RAND\]/$RND/" /build/template/frame.tpl
-
+    && cp template/*.tpl /build/template/
 COPY genfavicon.js ./
 COPY image/favicon.svg ./image/
 RUN node genfavicon.js
+RUN RND=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1) \
+    && sed -i "s/\(style\.css\)/\1?$RND/" /build/template/frame.tpl \
+    && sed -i "s/\(script\.js\)/\1?$RND/" /build/template/frame.tpl \
+    && sed -i "s/\(\.ico\)/\1?$RND/" /build/template/* \
+    && sed -i "s/\(\.svg\)/\1?$RND/" /build/template/* \
+    && sed -i "s/\(\.png\)/\1?$RND/" /build/template/*
 
 ###################################
 FROM nodebase AS image
