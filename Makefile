@@ -35,7 +35,7 @@ BUILD = docker build . \
 
 dev:
 	@command -v inotifywait >/dev/null 2>&1 || { echo "inotifywait is required"; exit 1; }
-	docker run --rm -it -v radiodb:/out alpine:3.8 \
+	docker run --rm -it -v radiodb:/out amd64/alpine:3.8 \
 	 	sh -c "apk add curl && curl --compressed -o/out/radiodb.json https://radiodb.freeddns.org/dumpget"
 	make dev-inner
 

@@ -110,8 +110,20 @@ COPY script/*.jsx ./script/
 RUN webpack
 
 ###################################
+FROM nodebase AS font
+
+RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ \
+    -i "https://fonts.googleapis.com/css?family=Muli:200,300,400,700" \
+    && mv /build/static/fonts/fonts.css /build/static/fonts/temp1.css
+RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ \
+    -i "https://fonts.googleapis.com/css?family=Cutive+Mono" \
+    && mv /build/static/fonts/fonts.css /build/static/fonts/temp2.css
+RUN cat /build/static/fonts/temp*.css > ./fonts.scss && rm /build/static/fonts/temp*.css
+
+###################################
 FROM nodebase AS style
 
+COPY --from=font /src/fonts.scss /src/fonts.scss
 COPY stylelint.config.js postcss.config.js ./
 COPY style/*.scss ./style/
 WORKDIR ./style
@@ -138,6 +150,7 @@ COPY --from=template /build /build
 COPY --from=countryflag /build /build
 COPY --from=image /build /build
 COPY --from=script /build /build
+COPY --from=font /build /build
 COPY --from=style /build /build
 
 USER user
