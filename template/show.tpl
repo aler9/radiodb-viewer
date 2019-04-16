@@ -20,17 +20,17 @@
                 <span>Date</span>
                 <span>{{ .Date }}</span>
             </li>
-            <li>
-                <span>Location</span>
-                <span>{{ .City }}</span>
+            <li class="tour">
+                <span>Tour</span>
+                <span><img src="/static/{{ .Tour }}.png" /> {{ .LabelTour }}</span>
             </li>
             <li class="country">
                 <span>Country</span>
                 <span><img src="/static/countryflag/{{ .LabelCountryCode }}.png" /> {{ .LabelCountry }}</span>
             </li>
-            <li class="tour">
-                <span>Tour</span>
-                <span><img src="/static/{{ .Tour }}.png" /> {{ .LabelTour }}</span>
+            <li>
+                <span>Location</span>
+                <span>{{ .City }}</span>
             </li>
             <li>
                 <span>Setlist</span>
