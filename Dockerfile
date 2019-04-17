@@ -60,7 +60,7 @@ RUN git clone https://github.com/hjnilsson/country-flags \
     && mv png1000px/* /build/static/countryflag/
 
 ###################################
-FROM amd64/node:11-alpine AS nodebase
+FROM amd64/node:10-alpine AS nodebase
 
 # phantomjs --> for favicon generator
 # https://github.com/dustinblackman/phantomized/
