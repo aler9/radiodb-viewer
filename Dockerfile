@@ -95,12 +95,12 @@ RUN RND=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1) \
 ###################################
 FROM nodebase AS image
 
+RUN mkdir -p /build/static
+COPY image/*.png ./image/
+RUN cp image/*.png /build/static/
 COPY image/*.svg ./image/
 RUN find ./image/ -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
     | xargs -n1 sh -c 'svgo -i $0 -o /build/static/$(basename $0)'
-
-COPY image/*.png ./image/
-RUN cp image/*.png /build/static/
 
 ###################################
 FROM nodebase AS script
@@ -115,12 +115,10 @@ RUN webpack
 ###################################
 FROM nodebase AS font
 
-RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ \
-    -i "https://fonts.googleapis.com/css?family=Muli:200,300,400,700" \
-    && mv /build/static/fonts/fonts.css /build/static/fonts/temp1.css
-RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ \
-    -i "https://fonts.googleapis.com/css?family=Cutive+Mono" \
-    && mv /build/static/fonts/fonts.css /build/static/fonts/temp2.css
+RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ -c temp1.css \
+    -i "https://fonts.googleapis.com/css?family=Muli:200,300,400,700"
+RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ -c temp2.css \
+    -i "https://fonts.googleapis.com/css?family=Cutive+Mono"
 RUN cat /build/static/fonts/temp*.css > ./fonts.scss && rm /build/static/fonts/temp*.css
 
 ###################################
