@@ -8,7 +8,7 @@ COPY gencountrymeta.go ./
 RUN go run gencountrymeta.go
 
 ###################################
-FROM amd64/golang:1.11-stretch AS exe
+FROM amd64/golang:1.11-stretch AS back
 
 RUN apt-get update && apt-get upgrade --no-install-recommends -y \
     unzip \
@@ -146,7 +146,7 @@ wait\n\
 
 RUN adduser -D -H -s /bin/sh -u 1000 user
 
-COPY --from=exe /build /build
+COPY --from=back /build /build
 COPY --from=template /build /build
 COPY --from=countryflag /build /build
 COPY --from=image /build /build
