@@ -1,7 +1,7 @@
 
 # radiodb-viewer
 
-source code for https://radiodb.freeddns.org
+source code of https://radiodb.freeddns.org
 
 ## Compile & run
 
