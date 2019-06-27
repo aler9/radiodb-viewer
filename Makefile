@@ -8,6 +8,7 @@ help:
 	@echo "available actions:"
 	@echo ""
 	@echo "  mod-tidy"
+	@echo "  format"
 	@echo "  package-check"
 	@echo "  package-upgrade"
 	@echo "  dev"
@@ -19,7 +20,7 @@ mod-tidy:
 	RUN apk add git \n\
 	" | docker build - -t rdbviewer-modtidy
 	docker run --rm -it -v $(PWD):/src rdbviewer-modtidy \
-	sh -c "cd /back && go get -m ./... && go mod tidy"
+	sh -c "cd /src/back && go get -m ./... && go mod tidy"
 
 format:
 	docker run --rm -it -v $(PWD):/src $(GO_BASE_IMAGE) \
