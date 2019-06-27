@@ -1,5 +1,7 @@
 ###################################
-FROM amd64/golang:1.11-stretch AS countrymeta
+FROM amd64/golang:1.12-alpine3.9 AS countrymeta
+
+RUN apk add git
 
 WORKDIR /countrymeta
 RUN go mod init temp \
@@ -8,15 +10,11 @@ COPY gencountrymeta.go ./
 RUN go run gencountrymeta.go
 
 ###################################
-FROM amd64/golang:1.11-stretch AS back
+FROM amd64/golang:1.12-alpine3.9 AS back
 
-RUN apt-get update && apt-get upgrade --no-install-recommends -y \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN cd / && wget https://github.com/protocolbuffers/protobuf/releases/download/v3.7.1/protoc-3.7.1-linux-x86_64.zip \
-    && unzip -d /usr protoc-*.zip \
-    && rm protoc-*.zip
+RUN apk add \
+    git \
+    protobuf-dev
 
 WORKDIR /src
 
@@ -39,14 +37,18 @@ COPY --from=countrymeta /countrymeta/countrymeta.go ./back/shared/
 COPY back/defs/*.go ./back/defs/
 COPY back/shared/*.go ./back/shared/
 
+ENV CGO_ENABLED 0
+
 COPY back/db/*.go ./back/db/
-RUN CGO_ENABLED=0 go build -o /build/db ./back/db
+RUN go build -o /build/db ./back/db
 
 COPY back/router/*.go ./back/router/
-RUN CGO_ENABLED=0 go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./back/router
+RUN go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./back/router
 
 ###################################
-FROM amd64/golang:1.11-stretch AS countryflag
+FROM amd64/golang:1.12-alpine3.9 AS countryflag
+
+RUN apk add git
 
 WORKDIR /countryflag
 RUN go mod init temp \
@@ -67,8 +69,9 @@ FROM amd64/node:10-alpine AS nodebase
 
 RUN apk add --no-cache \
     curl \
-    && rm -rf /var/cache/apk/* \
-    && curl -Ls https://github.com/dustinblackman/phantomized/releases/download/2.1.1a/dockerized-phantomjs.tar.gz | tar xz
+    && rm -rf /var/cache/apk/*
+
+RUN curl -Ls https://github.com/dustinblackman/phantomized/releases/download/2.1.1a/dockerized-phantomjs.tar.gz | tar xz
 
 WORKDIR /src
 
