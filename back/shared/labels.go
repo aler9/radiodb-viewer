@@ -9,26 +9,26 @@ import (
 func LabelTour(s *defs.RadioShow) string {
 	switch s.Tour {
 	// rh
-	case "amsp":
-		return "A Moon Shaped Pool tour"
-	case "tkol":
-		return "The King of Kimbs tour"
-	case "irb":
-		return "In Rainbows tour"
-	case "httt":
-		return "Hail to the Thief tour"
-	case "amn":
-		return "Amnesiac tour"
-	case "kida":
-		return "Kid A tour"
-	case "okc":
-		return "OK Computer tour"
-	case "bends":
-		return "The Bends tour"
-	case "pbh":
-		return "Pablo Honey tour"
 	case "oaf":
 		return "On a Friday"
+	case "pbh":
+		return "Pablo Honey tour"
+	case "bends":
+		return "The Bends tour"
+	case "okc":
+		return "OK Computer tour"
+	case "kida":
+		return "Kid A tour"
+	case "amn":
+		return "Amnesiac tour"
+	case "httt":
+		return "Hail to the Thief tour"
+	case "irb":
+		return "In Rainbows tour"
+	case "tkol":
+		return "The King of Kimbs tour"
+	case "amsp":
+		return "A Moon Shaped Pool tour"
 
 	// jonny / junun
 	case "varj":
@@ -37,20 +37,22 @@ func LabelTour(s *defs.RadioShow) string {
 		return "Junun tour"
 
 	// thom / afp
-	case "tmb":
-		return "Tomorrow's Modern Boxes tour"
 	case "vart":
 		return "Various Thom"
-	case "amok":
-		return "Amok tour"
 	case "eras":
 		return "The Eraser tour"
+	case "amok":
+		return "Amok tour"
+	case "tmb":
+		return "Tomorrow's Modern Boxes tour"
+	case "anim":
+		return "Anima tour"
 
 	// phil
-	case "weath":
-		return "The Weatherhouse tour"
 	case "famil":
 		return "Familial tour"
+	case "weath":
+		return "The Weatherhouse tour"
 	}
 	panic("tour not recognized")
 }
