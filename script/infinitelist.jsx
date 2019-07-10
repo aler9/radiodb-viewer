@@ -2,7 +2,7 @@
 import React, { Component } from "react"
 import { findDOMNode } from "react-dom"
 
-import { debounce, urlParamsEncode } from "./various"
+import { debounce, urlParamsEncode } from "./various.jsx"
 
 export class InfiniteList extends Component {
     state = {

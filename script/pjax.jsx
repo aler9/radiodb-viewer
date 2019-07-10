@@ -1,5 +1,5 @@
 
-import { isIE, debounce } from "./various"
+import { isIE, debounce } from "./various.jsx"
 
 const loadCurPage = (scroll) => {
     window.dispatchEvent(new CustomEvent("pjax-unload"))

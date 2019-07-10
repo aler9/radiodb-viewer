@@ -2,8 +2,8 @@
 import React, { Component } from "react"
 import { findDOMNode } from "react-dom"
 
-import { Scrollable } from "./scrollable"
-import { Touchable } from "./various"
+import { Scrollable } from "./scrollable.jsx"
+import { Touchable } from "./various.jsx"
 
 export class Select extends Component {
     static defaultProps = {

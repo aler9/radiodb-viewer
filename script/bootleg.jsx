@@ -1,8 +1,8 @@
 
 import React, { Component } from "react"
 
-import { DynamicReactRender } from "./various"
-import { Scrollable } from "./scrollable"
+import { DynamicReactRender } from "./various.jsx"
+import { Scrollable } from "./scrollable.jsx"
 
 class BootlegFinfo extends Component {
     render() {

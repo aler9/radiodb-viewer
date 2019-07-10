@@ -9,9 +9,6 @@ module.exports = {
         path: '/build/static',
         filename: 'script.js',
     },
-    resolve: {
-        extensions: [".jsx", ".js"],
-    },
     module: { rules: [
         {
             test: /\.js$/,

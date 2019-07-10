@@ -1,9 +1,9 @@
 
 import React, { Component } from "react"
 
-import { DynamicReactRender, urlParamsDecode } from "./various"
-import { InfiniteList } from "./infinitelist"
-import { MultiChoice, Select, TextInput } from "./inputs"
+import { DynamicReactRender, urlParamsDecode } from "./various.jsx"
+import { InfiniteList } from "./infinitelist.jsx"
+import { MultiChoice, Select, TextInput } from "./inputs.jsx"
 
 class Bootlegs extends Component {
     static paramTypes = {
@@ -14,7 +14,7 @@ class Bootlegs extends Component {
         videoRes: "string_array",
     }
 
-    static initParams ={
+    static initParams = {
         sort: "date",
         text: "",
         media: [],

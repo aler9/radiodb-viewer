@@ -2,7 +2,7 @@
 import React, { Component } from "react"
 import { findDOMNode } from "react-dom"
 
-import { Touchable } from "./various"
+import { Touchable } from "./various.jsx"
 
 export class Scrollable extends Component {
     state = {

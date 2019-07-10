@@ -1,8 +1,8 @@
 
 import React, { Component } from "react"
 
-import { DynamicReactRender, debounce } from "./various"
-import { TextInput } from "./inputs"
+import { DynamicReactRender, debounce } from "./various.jsx"
+import { TextInput } from "./inputs.jsx"
 
 export class Search extends Component {
     state = {

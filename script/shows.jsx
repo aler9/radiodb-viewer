@@ -1,9 +1,9 @@
 
 import React, { Component } from "react"
 
-import { DynamicReactRender, urlParamsDecode } from "./various"
-import { InfiniteList } from "./infinitelist"
-import { Select, MultiChoice, RangeSelect, TextInput } from "./inputs"
+import { DynamicReactRender, urlParamsDecode } from "./various.jsx"
+import { InfiniteList } from "./infinitelist.jsx"
+import { Select, MultiChoice, RangeSelect, TextInput } from "./inputs.jsx"
 
 class Shows extends Component {
     static paramTypes = {
