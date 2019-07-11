@@ -64,14 +64,9 @@ RUN git clone https://github.com/hjnilsson/country-flags \
 ###################################
 FROM amd64/node:10-alpine AS nodebase
 
-# phantomjs --> for favicon generator
-# https://github.com/dustinblackman/phantomized/
-
 RUN apk add --no-cache \
     curl \
     && rm -rf /var/cache/apk/*
-
-RUN curl -Ls https://github.com/dustinblackman/phantomized/releases/download/2.1.1a/dockerized-phantomjs.tar.gz | tar xz
 
 WORKDIR /src
 
