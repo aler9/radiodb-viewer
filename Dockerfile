@@ -139,7 +139,7 @@ RUN mkdir -p /build/static \
     > /build/static/style.css
 
 ###################################
-FROM amd64/alpine:3.8 AS run
+FROM amd64/alpine:3.9 AS run
 
 RUN echo $'#!/bin/sh\n\
 /build/db &\n\
