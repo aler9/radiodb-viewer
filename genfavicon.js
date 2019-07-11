@@ -4,7 +4,7 @@ const favicons = require('favicons'),
     { promisify } = require('util'),
     readFile = promisify(require('fs').readFile),
     writeFile = promisify(require('fs').writeFile),
-    mkdirp = require('mkdirp');
+    mkdir = promisify(require('fs').mkdir);
 
 const APP_NAME = "RadioDB";
 const SRC_FILE = "image/favicon.svg";
@@ -13,7 +13,7 @@ const URL_PREFIX = "/static/fav";
 const TEMPLATE_FILE = "/build/template/frame.tpl";
 
 (async () => {
-    await mkdirp(DEST_DIR);
+    await mkdir(DEST_DIR, { recursive: true });
 
     let res = await favicons(SRC_FILE, {
         path: URL_PREFIX,
