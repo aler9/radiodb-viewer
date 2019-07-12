@@ -16,7 +16,7 @@
     body > .inner { display: none; }
     </style>
     <link rel="stylesheet" href="/static/style.css">
-    <script async defer src="/static/script.js"></script>
+    <script defer src="/static/script.js"></script>
 </head>
 <body>
 <div class="inner">
