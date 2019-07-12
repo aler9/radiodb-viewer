@@ -7,13 +7,16 @@
 
     <!-- favicons -->
 
-    <!-- do not render before stylesheet loading -->
+    <!-- critical css -->
     <style>
-    body { background: rgb(35, 35, 35); }
+    body {
+        background: rgb(35, 35, 35);
+        overflow-y: scroll; /* always show scrollbar */
+    }
     body > .inner { display: none; }
     </style>
-    <link rel="stylesheet" type="text/css" href="/static/style.css">
-    <script defer src="/static/script.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <script async defer src="/static/script.js"></script>
 </head>
 <body>
 <div class="inner">
