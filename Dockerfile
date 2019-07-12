@@ -75,30 +75,31 @@ RUN npm i
 ENV PATH $PATH:/src/node_modules/.bin
 
 ###################################
-FROM nodebase AS template
+FROM nodebase AS image
 
-COPY template/*.tpl ./template/
-RUN mkdir -p /build/template \
-    && cp template/*.tpl /build/template/
+COPY image/*.png /build/static/
+
 COPY genfavicon.js ./
 COPY image/favicon.svg ./image/
+COPY template/frame.tpl /build/template/
 RUN node genfavicon.js
+
+COPY image/*.svg ./image/
+RUN find ./image/ -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
+    | xargs -n1 sh -c 'svgo -i $0 -o /build/static/$(basename $0)'
+
+###################################
+FROM nodebase AS template
+
+COPY template/*.tpl /build/template/
+COPY --from=image /build/template/frame.tpl /build/template/
+
 RUN RND=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1) \
     && sed -i "s/\(style\.css\)/\1?$RND/" /build/template/frame.tpl \
     && sed -i "s/\(script\.js\)/\1?$RND/" /build/template/frame.tpl \
     && sed -i "s/\(\.ico\)/\1?$RND/" /build/template/* \
     && sed -i "s/\(\.svg\)/\1?$RND/" /build/template/* \
     && sed -i "s/\(\.png\)/\1?$RND/" /build/template/*
-
-###################################
-FROM nodebase AS image
-
-RUN mkdir -p /build/static
-COPY image/*.png ./image/
-RUN cp image/*.png /build/static/
-COPY image/*.svg ./image/
-RUN find ./image/ -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
-    | xargs -n1 sh -c 'svgo -i $0 -o /build/static/$(basename $0)'
 
 ###################################
 FROM nodebase AS script
@@ -134,7 +135,7 @@ RUN mkdir -p /build/static \
     > /build/static/style.css
 
 ###################################
-FROM amd64/alpine:3.9 AS run
+FROM amd64/alpine:3.9
 
 RUN echo $'#!/bin/sh\n\
 /build/db &\n\
@@ -145,9 +146,9 @@ wait\n\
 RUN adduser -D -H -s /bin/sh -u 1000 user
 
 COPY --from=back /build /build
-COPY --from=template /build /build
 COPY --from=countryflag /build /build
 COPY --from=image /build /build
+COPY --from=template /build /build
 COPY --from=script /build /build
 COPY --from=font /build /build
 COPY --from=style /build /build

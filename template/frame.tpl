@@ -7,8 +7,8 @@
 
     <!-- favicons -->
 
-    <!-- critical css -->
     <style>
+    /* critical css */
     body {
         background: rgb(35, 35, 35);
         overflow-y: scroll; /* always show scrollbar */
