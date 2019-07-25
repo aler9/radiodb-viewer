@@ -7,7 +7,7 @@ const favicons = require('favicons'),
     mkdir = promisify(require('fs').mkdir);
 
 const APP_NAME = "RadioDB";
-const SRC_FILE = "image/favicon.svg";
+const SRC_FILE = "favicon.svg";
 const DEST_DIR = "/build/static/fav";
 const URL_PREFIX = "/static/fav";
 const TEMPLATE_FILE = "/build/template/frame.tpl";

@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/url"
-	"rdbviewer/back/defs"
-	"rdbviewer/back/shared"
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 	"strings"
 	"time"
 )

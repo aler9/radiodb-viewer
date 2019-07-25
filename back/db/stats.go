@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 )
 
 func (db *Database) Stats(context.Context, *shared.StatsReq) (*shared.StatsRes, error) {

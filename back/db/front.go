@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"rdbviewer/back/defs"
-	"rdbviewer/back/shared"
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 	"sort"
 )
 

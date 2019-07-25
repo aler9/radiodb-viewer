@@ -1,6 +1,5 @@
 
-GO_BASE_IMAGE = amd64/golang:1.12-alpine3.9
-NODE_BASE_IMAGE = amd64/node:10-alpine
+GO_BASE_IMAGE = amd64/golang:1.12-alpine3.10
 
 help:
 	@echo "usage: make [action] [args...]"
@@ -9,8 +8,6 @@ help:
 	@echo ""
 	@echo "  mod-tidy"
 	@echo "  format"
-	@echo "  package-check"
-	@echo "  package-upgrade"
 	@echo "  dev"
 	@echo "  prod"
 	@echo ""
@@ -25,18 +22,6 @@ mod-tidy:
 format:
 	docker run --rm -it -v $(PWD):/src $(GO_BASE_IMAGE) \
 	sh -c "cd /src && find . -type f -name '*.go' | xargs gofmt -l -w -s"
-
-package-check:
-	docker run --rm -it -v $(PWD):/orig $(NODE_BASE_IMAGE) \
-	sh -c "mkdir /src && cd /src && cp /orig/package*json . \
-	&& npm i && cp package*json /orig/ \
-	&& npm outdated; exit 0"
-
-package-upgrade:
-	docker run --rm -it -v $(PWD):/orig $(NODE_BASE_IMAGE) \
-	sh -c "mkdir /src && cd /src && cp /orig/package*json . \
-	&& npm i && npm upgrade \
-	&& cp package*json /orig/"
 
 BUILD = docker build . \
     --build-arg BUILD_MODE=$(BUILD_MODE) \

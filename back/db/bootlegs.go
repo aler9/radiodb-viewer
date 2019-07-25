@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
-	"rdbviewer/back/defs"
-	"rdbviewer/back/shared"
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 	"sort"
 	"strings"
 )

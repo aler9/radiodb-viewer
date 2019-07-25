@@ -4,7 +4,7 @@ const webpack = require('webpack'),
 
 module.exports = {
     mode: (process.env.BUILD_MODE == 'prod') ? 'production' : 'development',
-    entry: './script/main.jsx',
+    entry: './main.jsx',
     output: {
         path: '/build/static',
         filename: 'script.js',

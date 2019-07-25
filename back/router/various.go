@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"strings"
 	"time"
 )

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 )
 
 func (h *Router) onDataSearch(c *gin.Context) {

@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"sort"
 	"strings"
 	"time"

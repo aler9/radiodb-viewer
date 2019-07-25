@@ -6,7 +6,7 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/gin-gonic/gin"
 	"html/template"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"time"
 )
 

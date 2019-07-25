@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"time"
 )
 

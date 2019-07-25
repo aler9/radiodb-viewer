@@ -1,59 +1,65 @@
 ###################################
-FROM amd64/golang:1.12-alpine3.9 AS countrymeta
+FROM amd64/golang:1.12-alpine3.10 AS countrymeta
 
-RUN apk add git
+RUN apk add --no-cache \
+    git
 
-WORKDIR /countrymeta
+WORKDIR /s
+
 RUN go mod init temp \
     && go get github.com/pariz/gountries@adb00f6
-COPY gencountrymeta.go ./
+
+COPY back/gencountrymeta.go ./
 RUN go run gencountrymeta.go
 
 ###################################
-FROM amd64/golang:1.12-alpine3.9 AS back
+FROM amd64/golang:1.12-alpine3.10 AS back
 
-RUN apk add \
+RUN apk add --no-cache \
     git \
     protobuf-dev
 
-WORKDIR /src
+WORKDIR /s
 
-COPY go.mod go.sum ./
+COPY back/go.mod back/go.sum ./
 RUN go mod download
 
 # grpc
 RUN go install github.com/golang/protobuf/protoc-gen-go
-COPY back/defs/*.proto ./back/defs/
-COPY back/shared/*.proto ./back/shared/
-RUN cd ./back/defs && protoc pdefs.proto \
+COPY back/defs/*.proto ./defs/
+COPY back/shared/*.proto ./shared/
+RUN cd ./defs && protoc pdefs.proto \
     --go_out=paths=source_relative:.
-RUN cd ./back/shared && protoc -I ../defs -I . db.proto \
-    --go_out=paths=source_relative,plugins=grpc,Mpdefs.proto=rdbviewer/back/defs:.
+RUN cd ./shared && protoc -I ../defs -I . db.proto \
+    --go_out=paths=source_relative,plugins=grpc,Mpdefs.proto=rdbviewer/defs:.
 
 ARG BUILD_MODE
 RUN test -n "$BUILD_MODE"
 
-COPY --from=countrymeta /countrymeta/countrymeta.go ./back/shared/
-COPY back/defs/*.go ./back/defs/
-COPY back/shared/*.go ./back/shared/
+COPY --from=countrymeta /s/countrymeta.go ./shared/
+COPY back/defs/*.go ./defs/
+COPY back/shared/*.go ./shared/
 
 ENV CGO_ENABLED 0
 
-COPY back/db/*.go ./back/db/
-RUN go build -o /build/db ./back/db
+COPY back/db/*.go ./db/
+RUN go build -o /build/db ./db
 
-COPY back/router/*.go ./back/router/
-RUN go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./back/router
+COPY back/router/*.go ./router/
+RUN go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./router
 
 ###################################
 FROM amd64/golang:1.12-alpine3.9 AS countryflag
 
-RUN apk add git
+RUN apk add --no-cache \
+    git
 
-WORKDIR /countryflag
+WORKDIR /s
+
 RUN go mod init temp \
     && go get github.com/disintegration/imaging@v1.6.0
-COPY gencountryflag.go ./
+
+COPY image/gencountryflag.go ./
 RUN git clone https://github.com/hjnilsson/country-flags \
     && cd country-flags*/ \
     && git checkout d5d1cc4 \
@@ -62,34 +68,39 @@ RUN git clone https://github.com/hjnilsson/country-flags \
     && mv png1000px/* /build/static/countryflag/
 
 ###################################
-FROM amd64/node:10-alpine AS nodebase
+FROM amd64/node:12-alpine AS image
 
-RUN apk add --no-cache \
-    curl \
-    && rm -rf /var/cache/apk/*
+WORKDIR /s
 
-WORKDIR /src
-
-COPY package*.json ./
+COPY image/package*.json ./
 RUN npm i
-ENV PATH $PATH:/src/node_modules/.bin
-
-###################################
-FROM nodebase AS image
 
 COPY image/*.png /build/static/
 
-COPY genfavicon.js ./
-COPY image/favicon.svg ./image/
+COPY image/genfavicon.js image/favicon.svg ./
 COPY template/frame.tpl /build/template/
 RUN node genfavicon.js
 
-COPY image/*.svg ./image/
-RUN find ./image/ -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
-    | xargs -n1 sh -c 'svgo -i $0 -o /build/static/$(basename $0)'
+COPY image/*.svg ./
+RUN find . -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
+    | xargs -n1 sh -c 'node_modules/.bin/svgo -i $0 -o /build/static/$(basename $0)'
 
 ###################################
-FROM nodebase AS template
+FROM amd64/node:12-alpine AS script
+
+WORKDIR /s
+
+COPY script/package*.json ./
+RUN npm i
+
+ARG BUILD_MODE
+RUN test -n "$BUILD_MODE"
+COPY script/.eslintrc.js script/babel.config.js script/webpack.config.js \
+    script/.browserslistrc script/*.jsx ./
+RUN node_modules/.bin/webpack
+
+###################################
+FROM amd64/alpine:3.10 AS template
 
 COPY template/*.tpl /build/template/
 COPY --from=image /build/template/frame.tpl /build/template/
@@ -102,40 +113,32 @@ RUN RND=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1) \
     && sed -i "s/\(\.png\)/\1?$RND/" /build/template/*
 
 ###################################
-FROM nodebase AS script
+FROM amd64/node:12-alpine AS style
 
-ARG BUILD_MODE
-RUN test -n "$BUILD_MODE"
+WORKDIR /s
 
-COPY .eslintrc.js babel.config.js webpack.config.js ./
-COPY script/*.jsx ./script/
-RUN webpack
+COPY style/package*.json ./
+RUN npm i
 
-###################################
-FROM nodebase AS font
-
-RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ -c temp1.css \
+RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp1.css \
     -i "https://fonts.googleapis.com/css?family=Muli:200,300,400,700"
-RUN get-google-fonts -o /build/static/fonts -p /static/fonts/ -c temp2.css \
+RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp2.css \
     -i "https://fonts.googleapis.com/css?family=Cutive+Mono"
-RUN cat /build/static/fonts/temp*.css > ./fonts.scss && rm /build/static/fonts/temp*.css
+RUN cat fonts/temp*.css > fonts.scss && rm fonts/temp*.css
+RUN mv fonts /build/
+RUN echo 'fonts.scss' > .stylelintignore
 
-###################################
-FROM nodebase AS style
-
-COPY --from=font /src/fonts.scss /src/fonts.scss
-COPY stylelint.config.js postcss.config.js ./
-COPY style/*.scss ./style/
-WORKDIR ./style
+COPY style/stylelint.config.js style/postcss.config.js style/.browserslistrc \
+    style/*.scss ./
 RUN mkdir -p /build/static \
-    && stylelint *.scss \
+    && node_modules/.bin/stylelint *.scss \
     && cat style.scss \
-    | node-sass \
-    | postcss \
+    | node_modules/.bin/node-sass \
+    | node_modules/.bin/postcss \
     > /build/static/style.css
 
 ###################################
-FROM amd64/alpine:3.9
+FROM amd64/alpine:3.10
 
 RUN echo $'#!/bin/sh\n\
 /build/db &\n\
@@ -148,9 +151,8 @@ RUN adduser -D -H -s /bin/sh -u 1000 user
 COPY --from=back /build /build
 COPY --from=countryflag /build /build
 COPY --from=image /build /build
-COPY --from=template /build /build
 COPY --from=script /build /build
-COPY --from=font /build /build
+COPY --from=template /build /build
 COPY --from=style /build /build
 
 USER user

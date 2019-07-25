@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/dustin/go-humanize"
 	"github.com/gin-gonic/gin"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"sort"
 	"time"
 )

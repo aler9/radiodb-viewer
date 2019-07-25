@@ -3,18 +3,13 @@ module.exports = {
         "browser": true,
     },
     "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "legacyDecorators": true
-        }
-    },
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended"
     ],
     "settings": {
         "react": {
-            "version": "16.6",
+            "version": "16.8",
         }
     },
 

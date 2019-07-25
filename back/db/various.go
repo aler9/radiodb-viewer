@@ -6,7 +6,7 @@ import (
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
 	"os"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"strings"
 	"unicode"
 )

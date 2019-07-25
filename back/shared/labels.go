@@ -2,7 +2,7 @@ package shared
 
 import (
 	"fmt"
-	"rdbviewer/back/defs"
+	"rdbviewer/defs"
 	"strings"
 )
 

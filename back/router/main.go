@@ -9,7 +9,7 @@ import (
 	"math/rand"
 	"os"
 	"path/filepath"
-	"rdbviewer/back/shared"
+	"rdbviewer/shared"
 	"time"
 )
 

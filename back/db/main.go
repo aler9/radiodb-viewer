@@ -6,8 +6,8 @@ import (
 	"math/rand"
 	"net"
 	"os"
-	"rdbviewer/back/defs"
-	"rdbviewer/back/shared"
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 	"time"
 )
 
