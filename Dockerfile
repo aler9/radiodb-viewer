@@ -127,7 +127,7 @@ RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp2.css \
 RUN cat fonts/temp*.css > fonts.scss && rm fonts/temp*.css
 RUN mkdir -p /build/static \
     && mv fonts /build/static/
-RUN echo 'fonts.scss' > .stylelintignore
+RUN echo fonts.scss > .stylelintignore
 
 COPY style/stylelint.config.js style/postcss.config.js style/.browserslistrc \
     style/*.scss ./
