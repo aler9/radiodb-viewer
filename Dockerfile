@@ -49,7 +49,7 @@ COPY back/router/*.go ./router/
 RUN go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./router
 
 ###################################
-FROM amd64/golang:1.12-alpine3.9 AS countryflag
+FROM amd64/golang:1.12-alpine3.10 AS countryflag
 
 RUN apk add --no-cache \
     git
@@ -125,7 +125,8 @@ RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp1.css \
 RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp2.css \
     -i "https://fonts.googleapis.com/css?family=Cutive+Mono"
 RUN cat fonts/temp*.css > fonts.scss && rm fonts/temp*.css
-RUN mv fonts /build/
+RUN mkdir -p /build/static \
+    && mv fonts /build/static/
 RUN echo 'fonts.scss' > .stylelintignore
 
 COPY style/stylelint.config.js style/postcss.config.js style/.browserslistrc \
