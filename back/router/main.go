@@ -7,10 +7,13 @@ import (
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"path/filepath"
 	"rdbviewer/shared"
 	"time"
+
+	_ "net/http/pprof"
 )
 
 const (
@@ -26,6 +29,15 @@ type Router struct {
 }
 
 func main() {
+	pprofMux := http.DefaultServeMux
+	go func() {
+		(&http.Server{
+			Addr:    ":9999",
+			Handler: pprofMux,
+		}).ListenAndServe()
+	}()
+	http.DefaultServeMux = http.NewServeMux()
+
 	exe, _ := os.Executable()
 	os.Chdir(filepath.Dir(exe))
 

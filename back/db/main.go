@@ -5,10 +5,13 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"net/http"
 	"os"
 	"rdbviewer/defs"
 	"rdbviewer/shared"
 	"time"
+
+	_ "net/http/pprof"
 )
 
 const (
@@ -27,6 +30,15 @@ type Database struct {
 }
 
 func main() {
+	pprofMux := http.DefaultServeMux
+	go func() {
+		(&http.Server{
+			Addr:    ":9998",
+			Handler: pprofMux,
+		}).ListenAndServe()
+	}()
+	http.DefaultServeMux = http.NewServeMux()
+
 	rand.Seed(time.Now().UnixNano())
 
 	log.SetOutput(os.Stdout)
