@@ -4,10 +4,25 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"strings"
 )
+
+func TplLoadAll(dpath string) map[string]*template.Template {
+	ret := make(map[string]*template.Template)
+	files, err := ioutil.ReadDir(dpath)
+	if err != nil {
+		panic(err)
+	}
+	for _, f := range files {
+		name := f.Name()
+		name = name[:len(name)-len(filepath.Ext(name))]
+		ret[name] = TplLoad(filepath.Join(dpath, f.Name()))
+	}
+	return ret
+}
 
 func TplLoad(fpath string) *template.Template {
 	return template.Must(template.New(filepath.Base(fpath)).ParseFiles(fpath))
@@ -22,8 +37,7 @@ func TplExecute(tpl *template.Template, data interface{}) string {
 }
 
 func GinPostBody(c *gin.Context, target interface{}) error {
-	decoder := json.NewDecoder(c.Request.Body)
-	return decoder.Decode(target)
+	return json.NewDecoder(c.Request.Body).Decode(target)
 }
 
 func GinNotFoundText(c *gin.Context) {

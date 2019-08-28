@@ -2,8 +2,9 @@ package shared
 
 import (
 	"fmt"
-	"rdbviewer/defs"
 	"strings"
+
+	"rdbviewer/defs"
 )
 
 func LabelTour(s *defs.RadioShow) string {

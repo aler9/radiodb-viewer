@@ -3,10 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"rdbviewer/shared"
 	"sort"
 	"strings"
 	"time"
+
+	"rdbviewer/shared"
 )
 
 func (db *Database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredReq) (*shared.ShowsFilteredRes, error) {

@@ -4,10 +4,11 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
-	"rdbviewer/defs"
-	"rdbviewer/shared"
 	"sort"
 	"strings"
+
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 )
 
 func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFilteredReq) (*shared.BootlegsFilteredRes, error) {

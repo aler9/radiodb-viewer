@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
-	"rdbviewer/shared"
 	"time"
+
+	"rdbviewer/shared"
 
 	_ "net/http/pprof"
 )
@@ -46,23 +46,9 @@ func main() {
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.LstdFlags)
 
-	h := &Router{
-		templates: make(map[string]*template.Template),
-	}
+	h := &Router{}
 
-	// load templates
-	func() {
-		tplRoot := "./template"
-		files, err := ioutil.ReadDir(tplRoot)
-		if err != nil {
-			panic(err)
-		}
-		for _, f := range files {
-			name := f.Name()
-			name = name[:len(name)-len(filepath.Ext(name))]
-			h.templates[name] = TplLoad(filepath.Join(tplRoot, f.Name()))
-		}
-	}()
+	h.templates = TplLoadAll("./template")
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()

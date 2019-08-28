@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"github.com/dustin/go-humanize"
 	"github.com/gin-gonic/gin"
-	"rdbviewer/shared"
 	"sort"
 	"time"
+
+	"rdbviewer/shared"
 )
 
 func (h *Router) onPageShow(c *gin.Context) {

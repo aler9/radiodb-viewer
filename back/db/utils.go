@@ -6,9 +6,10 @@ import (
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/norm"
 	"os"
-	"rdbviewer/shared"
 	"strings"
 	"unicode"
+
+	"rdbviewer/shared"
 )
 
 // custom version of MustImportJson() that reads directly from file

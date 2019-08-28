@@ -7,10 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/url"
-	"rdbviewer/defs"
-	"rdbviewer/shared"
 	"strings"
 	"time"
+
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 )
 
 func MagnetLink(f *defs.RadioBootlegFile) string {

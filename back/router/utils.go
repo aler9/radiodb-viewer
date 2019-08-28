@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/golang/protobuf/ptypes/timestamp"
-	"rdbviewer/shared"
 	"strings"
 	"time"
+
+	"rdbviewer/shared"
 )
 
 func FormatFirstSeen(ts *timestamp.Timestamp, format string) string {

@@ -7,9 +7,10 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"time"
+
 	"rdbviewer/defs"
 	"rdbviewer/shared"
-	"time"
 
 	_ "net/http/pprof"
 )

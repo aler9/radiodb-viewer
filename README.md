@@ -3,16 +3,22 @@
 
 source code of https://radiodb.freeddns.org
 
-## Compile & run
+## Build & run
 
-Dependencies:
-* make
-* docker
-* inotify-tools
+1. Install dependencies:
+   * make
+   * docker
+   * inotify-tools
 
-```
-make dev
-```
+2. Build:
+   ```
+   make dev
+   ```
+
+3. Visit:
+   ```
+   http://localhost:7446
+   ```
 
 ## License
 

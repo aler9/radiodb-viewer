@@ -6,8 +6,9 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/gin-gonic/gin"
 	"html/template"
-	"rdbviewer/shared"
 	"time"
+
+	"rdbviewer/shared"
 )
 
 func (h *Router) onPageStats(c *gin.Context) {

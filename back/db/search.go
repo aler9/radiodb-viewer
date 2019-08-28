@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"rdbviewer/defs"
-	"rdbviewer/shared"
 	"sort"
 	"strings"
 	"time"
+
+	"rdbviewer/defs"
+	"rdbviewer/shared"
 )
 
 func (db *Database) Search(ctx context.Context, req *shared.SearchReq) (*shared.SearchRes, error) {
