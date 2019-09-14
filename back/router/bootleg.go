@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/dustin/go-humanize"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/dustin/go-humanize"
+	"github.com/gin-gonic/gin"
 
 	"rdbviewer/defs"
 	"rdbviewer/shared"

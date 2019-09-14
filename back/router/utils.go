@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/golang/protobuf/ptypes/timestamp"
 	"strings"
 	"time"
+
+	"github.com/golang/protobuf/ptypes/timestamp"
 
 	"rdbviewer/shared"
 )

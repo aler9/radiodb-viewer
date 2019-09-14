@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 func TplLoadAll(dpath string) map[string]*template.Template {

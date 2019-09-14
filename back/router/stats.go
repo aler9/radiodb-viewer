@@ -3,10 +3,11 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"github.com/dustin/go-humanize"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"time"
+
+	"github.com/dustin/go-humanize"
+	"github.com/gin-gonic/gin"
 
 	"rdbviewer/shared"
 )

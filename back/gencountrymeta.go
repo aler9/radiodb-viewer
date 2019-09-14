@@ -4,11 +4,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/pariz/gountries"
 	"io"
 	"os"
 	"sort"
 	"strings"
+
+	"github.com/pariz/gountries"
 )
 
 func main() {

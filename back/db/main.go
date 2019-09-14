@@ -1,7 +1,6 @@
 package main
 
 import (
-	"google.golang.org/grpc"
 	"log"
 	"math/rand"
 	"net"
@@ -9,10 +8,12 @@ import (
 	"os"
 	"time"
 
+	_ "net/http/pprof"
+
+	"google.golang.org/grpc"
+
 	"rdbviewer/defs"
 	"rdbviewer/shared"
-
-	_ "net/http/pprof"
 )
 
 const (

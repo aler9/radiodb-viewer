@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
 	"html/template"
 	"log"
 	"math/rand"
@@ -11,9 +9,12 @@ import (
 	"path/filepath"
 	"time"
 
-	"rdbviewer/shared"
-
 	_ "net/http/pprof"
+
+	"github.com/gin-gonic/gin"
+	"google.golang.org/grpc"
+
+	"rdbviewer/shared"
 )
 
 const (

@@ -3,10 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/dustin/go-humanize"
-	"github.com/gin-gonic/gin"
 	"sort"
 	"time"
+
+	"github.com/dustin/go-humanize"
+	"github.com/gin-gonic/gin"
 
 	"rdbviewer/shared"
 )

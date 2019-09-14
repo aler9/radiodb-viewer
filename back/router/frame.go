@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"html/template"
+
+	"github.com/gin-gonic/gin"
 )
 
 type FrameConf struct {

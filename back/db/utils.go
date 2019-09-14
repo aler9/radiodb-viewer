@@ -2,12 +2,13 @@ package main
 
 import (
 	"bufio"
-	"github.com/json-iterator/go"
-	"golang.org/x/text/transform"
-	"golang.org/x/text/unicode/norm"
 	"os"
 	"strings"
 	"unicode"
+
+	"github.com/json-iterator/go"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 
 	"rdbviewer/shared"
 )
