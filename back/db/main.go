@@ -114,10 +114,6 @@ func main() {
 	}
 	server := grpc.NewServer()
 	shared.RegisterDatabaseServer(server, db)
-	db.Log("serving database on %s", DB_ADDR)
+	log.Printf("serving database on %s", DB_ADDR)
 	server.Serve(listener)
-}
-
-func (db *Database) Log(text string, args ...interface{}) {
-	log.Printf(text, args...)
 }

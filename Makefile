@@ -2,7 +2,7 @@
 GO_BASE_IMAGE = amd64/golang:1.12-alpine3.10
 
 help:
-	@echo "usage: make [action] [args...]"
+	@echo "usage: make [action]"
 	@echo ""
 	@echo "available actions:"
 	@echo ""
@@ -16,12 +16,12 @@ mod-tidy:
 	echo "FROM $(GO_BASE_IMAGE) \n\
 	RUN apk add git \n\
 	" | docker build - -t rdbviewer-modtidy
-	docker run --rm -it -v $(PWD):/src rdbviewer-modtidy \
-	sh -c "cd /src/back && go get -m ./... && go mod tidy"
+	docker run --rm -it -v $(PWD):/s rdbviewer-modtidy \
+	sh -c "cd /s/back && go get -m ./... && go mod tidy"
 
 format:
-	docker run --rm -it -v $(PWD):/src $(GO_BASE_IMAGE) \
-	sh -c "cd /src && find . -type f -name '*.go' | xargs gofmt -l -w -s"
+	docker run --rm -it -v $(PWD):/s $(GO_BASE_IMAGE) \
+	sh -c "cd /s && find . -type f -name '*.go' | xargs gofmt -l -w -s"
 
 BUILD = docker build . \
     --build-arg BUILD_MODE=$(BUILD_MODE) \

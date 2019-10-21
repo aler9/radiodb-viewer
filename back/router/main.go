@@ -49,36 +49,6 @@ func main() {
 
 	h := &Router{}
 
-	h.templates = TplLoadAll("./template")
-
-	gin.SetMode(gin.ReleaseMode)
-	r := gin.New()
-
-	// populate router
-	func() {
-		s := r.Group("/static/")
-		if BUILD_MODE == "prod" {
-			s.Use(func(c *gin.Context) {
-				c.Header("Cache-Control", "public, max-age=1296000") // 15 days
-			})
-		}
-		s.Static("/", "./static")
-
-		r.GET("/", h.onPageFront)
-		r.POST("/data/search", h.onDataSearch)
-		r.GET("/shows", h.onPageShows)
-		r.POST("/data/shows", h.onDataShows)
-		r.GET("/bootlegs", h.onPageBootlegs)
-		r.POST("/data/bootlegs", h.onDataBootlegs)
-		r.GET("/shows/:id", h.onPageShow)
-		r.GET("/bootlegs/:id", h.onPageBootleg)
-		r.GET("/random", h.onPageRandom)
-		r.GET("/stats", h.onPageStats)
-		r.GET("/dump", h.onPageDump)
-		r.GET("/dumpget", h.onPageDumpGet)
-		r.HEAD("/dumpget", h.onPageDumpGet)
-	}()
-
 	// connect to database
 	conn, err := grpc.Dial(DB_ADDR, grpc.WithInsecure())
 	if err != nil {
@@ -87,10 +57,33 @@ func main() {
 	defer conn.Close()
 	h.dbClient = shared.NewDatabaseClient(conn)
 
-	h.Log("serving router on %s", HTTP_ADDR)
-	r.Run(HTTP_ADDR)
-}
+	h.templates = TplLoadAll("./template")
 
-func (*Router) Log(text string, args ...interface{}) {
-	log.Printf(text, args...)
+	gin.SetMode(gin.ReleaseMode)
+	r := gin.New()
+
+	// populate router
+	s := r.Group("/static/")
+	if BUILD_MODE == "prod" {
+		s.Use(func(c *gin.Context) {
+			c.Header("Cache-Control", "public, max-age=1296000") // 15 days
+		})
+	}
+	s.Static("/", "./static")
+	r.GET("/", h.onPageFront)
+	r.POST("/data/search", h.onDataSearch)
+	r.GET("/shows", h.onPageShows)
+	r.POST("/data/shows", h.onDataShows)
+	r.GET("/bootlegs", h.onPageBootlegs)
+	r.POST("/data/bootlegs", h.onDataBootlegs)
+	r.GET("/shows/:id", h.onPageShow)
+	r.GET("/bootlegs/:id", h.onPageBootleg)
+	r.GET("/random", h.onPageRandom)
+	r.GET("/stats", h.onPageStats)
+	r.GET("/dump", h.onPageDump)
+	r.GET("/dumpget", h.onPageDumpGet)
+	r.HEAD("/dumpget", h.onPageDumpGet)
+
+	log.Printf("serving router on %s", HTTP_ADDR)
+	r.Run(HTTP_ADDR)
 }
