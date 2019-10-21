@@ -5,10 +5,9 @@ import (
 	"math/rand"
 	"net"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 	"time"
-
-	_ "net/http/pprof"
 
 	"google.golang.org/grpc"
 

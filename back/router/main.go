@@ -5,11 +5,9 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
-	"path/filepath"
-	"time"
-
 	_ "net/http/pprof"
+	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
@@ -39,9 +37,6 @@ func main() {
 	}()
 	http.DefaultServeMux = http.NewServeMux()
 
-	exe, _ := os.Executable()
-	os.Chdir(filepath.Dir(exe))
-
 	rand.Seed(time.Now().UnixNano())
 
 	log.SetOutput(os.Stdout)
@@ -57,7 +52,7 @@ func main() {
 	defer conn.Close()
 	h.dbClient = shared.NewDatabaseClient(conn)
 
-	h.templates = TplLoadAll("./template")
+	h.templates = TplLoadAll("/build/template")
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
@@ -69,7 +64,7 @@ func main() {
 			c.Header("Cache-Control", "public, max-age=1296000") // 15 days
 		})
 	}
-	s.Static("/", "./static")
+	s.Static("/", "/build/static")
 	r.GET("/", h.onPageFront)
 	r.POST("/data/search", h.onDataSearch)
 	r.GET("/shows", h.onPageShows)
