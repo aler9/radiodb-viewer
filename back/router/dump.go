@@ -7,7 +7,7 @@ import (
 func (h *Router) onPageDump(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title:   "Dump",
-		Content: TplExecute(h.templates["dump"], gin.H{}),
+		Content: TplRender(h.templates["dump"], gin.H{}),
 	}))
 }
 

@@ -49,7 +49,7 @@ func (h *Router) onPageShow(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title: fmt.Sprintf("%s, %s, %s, %s",
 			shared.LabelArtist(s), d.Format("2 January 2006"), s.City, shared.LabelCountry(s)),
-		Content: TplExecute(h.templates["show"], gin.H{
+		Content: TplRender(h.templates["show"], gin.H{
 			"Date":             d.Format("2 January 2006"),
 			"ArtistLong":       shared.LabelArtist(s),
 			"City":             s.City,

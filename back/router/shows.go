@@ -13,7 +13,7 @@ import (
 func (h *Router) onPageShows(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title:   "Shows",
-		Content: TplExecute(h.templates["shows"], nil),
+		Content: TplRender(h.templates["shows"], nil),
 	}))
 }
 
@@ -73,7 +73,7 @@ func (h *Router) onDataShows(c *gin.Context) {
 						"title": fmt.Sprintf("%s, %s, %s, %s",
 							shared.LabelArtist(s), d.Format("2 January 2006"), s.City, shared.LabelCountry(s)),
 					},
-					"cnt": TplExecute(h.templates["showentry"], gin.H{
+					"cnt": TplRender(h.templates["showentry"], gin.H{
 						"Id":               s.Id,
 						"Date":             d.Format("2 January 2006"),
 						"Artist":           s.Artist,

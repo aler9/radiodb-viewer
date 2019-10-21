@@ -26,7 +26,7 @@ func (h *Router) onPageStats(c *gin.Context) {
 
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title: "Statistics",
-		Content: TplExecute(h.templates["stats"], gin.H{
+		Content: TplRender(h.templates["stats"], gin.H{
 			"Stats":           stats.Stats,
 			"Generated":       g.Format("2 January 2006"),
 			"DateLastBootleg": dlb.Format("2 January 2006"),

@@ -31,7 +31,7 @@ func (h *Router) onPageFront(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title: "",
 		Class: "front",
-		Content: TplExecute(h.templates["front"], gin.H{
+		Content: TplRender(h.templates["front"], gin.H{
 			"ShowsLast": func() (ret []gin.H) {
 				for _, s := range front.LastShows {
 					da, _ := time.Parse("2006-01-02", s.Date)

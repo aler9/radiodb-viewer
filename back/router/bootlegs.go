@@ -15,7 +15,7 @@ import (
 func (h *Router) onPageBootlegs(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title:   "Bootlegs",
-		Content: TplExecute(h.templates["bootlegs"], nil),
+		Content: TplRender(h.templates["bootlegs"], nil),
 	}))
 }
 
@@ -70,7 +70,7 @@ func (h *Router) onDataBootlegs(c *gin.Context) {
 						"className": "entry",
 						"title":     b.Name,
 					},
-					"cnt": TplExecute(h.templates["bootlegentry"], gin.H{
+					"cnt": TplRender(h.templates["bootlegentry"], gin.H{
 						"Id":        b.Id,
 						"Name":      b.Name,
 						"FirstSeen": FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"math/rand"
 	"net/http"
@@ -23,7 +22,7 @@ const (
 var BUILD_MODE string
 
 type Router struct {
-	templates map[string]*template.Template
+	templates TplMap
 	dbClient  shared.DatabaseClient
 }
 

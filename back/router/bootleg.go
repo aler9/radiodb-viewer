@@ -46,7 +46,7 @@ func (h *Router) onPageBootleg(c *gin.Context) {
 
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title: fmt.Sprintf("Bootleg \"%s\"", b.Name),
-		Content: TplExecute(h.templates["bootleg"], gin.H{
+		Content: TplRender(h.templates["bootleg"], gin.H{
 			"Name":             b.Name,
 			"Type":             b.Type,
 			"TypeLong":         shared.LabelMediaType(b.Type),

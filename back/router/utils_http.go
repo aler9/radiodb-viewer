@@ -11,8 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TplLoadAll(dpath string) map[string]*template.Template {
-	ret := make(map[string]*template.Template)
+type TplMap map[string]*template.Template
+
+func TplLoadAll(dpath string) TplMap {
+	ret := make(TplMap)
 	files, err := ioutil.ReadDir(dpath)
 	if err != nil {
 		panic(err)
@@ -20,16 +22,13 @@ func TplLoadAll(dpath string) map[string]*template.Template {
 	for _, f := range files {
 		name := f.Name()
 		name = name[:len(name)-len(filepath.Ext(name))]
-		ret[name] = TplLoad(filepath.Join(dpath, f.Name()))
+		fpath := filepath.Join(dpath, f.Name())
+		ret[name] = template.Must(template.New(filepath.Base(fpath)).ParseFiles(fpath))
 	}
 	return ret
 }
 
-func TplLoad(fpath string) *template.Template {
-	return template.Must(template.New(filepath.Base(fpath)).ParseFiles(fpath))
-}
-
-func TplExecute(tpl *template.Template, data interface{}) string {
+func TplRender(tpl *template.Template, data interface{}) string {
 	var buf strings.Builder
 	if err := tpl.Execute(&buf, data); err != nil {
 		panic(err)
