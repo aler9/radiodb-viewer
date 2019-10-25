@@ -47,7 +47,7 @@
 </main>
 
 <footer>
-    <a href="https://github.com/gswly/radiodb-viewer" target="_blank" class="source">
+    <a href="https://github.com/aler9/radiodb-viewer" target="_blank" class="source">
         <img src="/static/github.svg" />
         source code
     </a>
