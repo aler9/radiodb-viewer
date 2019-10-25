@@ -86,7 +86,7 @@
         <div class="note">
             Download requires a Direct Connect client installed
             (Windows: <a href="http://dcplusplus.sourceforge.net/" target="_blank">DC++</a>,
-            macOS/Linux: <a href="https://sourceforge.net/projects/eiskaltdcpp/files/macOS/" target="_blank">EiskaltDC++</a>)
+            Mac/Linux: <a href="https://sourceforge.net/projects/eiskaltdcpp/files/macOS/" target="_blank">EiskaltDC++</a>)
             and connected to the RadioHub (<a href="http://radiohub.wikidot.com/" target="_blank">instructions</a>).
         </div>
 
