@@ -96,7 +96,7 @@ RUN npm i
 ARG BUILD_MODE
 RUN test -n "$BUILD_MODE"
 COPY script/.eslintrc.js script/babel.config.js script/webpack.config.js \
-    script/.browserslistrc script/*.jsx ./
+    .browserslistrc script/*.jsx ./
 RUN node_modules/.bin/webpack
 
 ###################################
@@ -129,7 +129,7 @@ RUN mkdir -p /build/static \
     && mv fonts /build/static/
 RUN echo fonts.scss > .stylelintignore
 
-COPY style/stylelint.config.js style/postcss.config.js style/.browserslistrc \
+COPY style/stylelint.config.js style/postcss.config.js .browserslistrc \
     style/*.scss ./
 RUN mkdir -p /build/static \
     && node_modules/.bin/stylelint *.scss \
