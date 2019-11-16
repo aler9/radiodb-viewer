@@ -1,9 +1,10 @@
 
 @import "reset.scss";
-
 @import "node_modules/breakpoint-sass/stylesheets/breakpoint.scss";
 @import "animations.scss";
-@import "fonts.scss";
+
+@import url('https://fonts.googleapis.com/css?family=Muli:200,300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cutive+Mono&display=swap');
 
 $page_max_width: 1100px;
 $header_height: 80px;

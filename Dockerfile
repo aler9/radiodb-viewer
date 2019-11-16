@@ -77,9 +77,9 @@ RUN npm i
 
 COPY image/*.png /build/static/
 
-COPY image/genfavicon.js image/favicon.svg ./
+COPY image/favicons.js image/favicon.svg ./
 COPY template/frame.tpl /build/template/
-RUN node genfavicon.js
+RUN node favicons.js
 
 COPY image/*.svg ./
 RUN find . -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
@@ -120,15 +120,6 @@ WORKDIR /s
 COPY style/package*.json ./
 RUN npm i
 
-RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp1.css \
-    -i "https://fonts.googleapis.com/css?family=Muli:200,300,400,700"
-RUN node_modules/.bin/get-google-fonts -p /static/fonts/ -c temp2.css \
-    -i "https://fonts.googleapis.com/css?family=Cutive+Mono"
-RUN cat fonts/temp*.css > fonts.scss && rm fonts/temp*.css
-RUN mkdir -p /build/static \
-    && mv fonts /build/static/
-RUN echo fonts.scss > .stylelintignore
-
 COPY style/stylelint.config.js style/postcss.config.js .browserslistrc \
     style/*.scss ./
 RUN mkdir -p /build/static \
@@ -137,6 +128,9 @@ RUN mkdir -p /build/static \
     | node_modules/.bin/node-sass \
     | node_modules/.bin/postcss \
     > /build/static/style.css
+
+COPY style/googlefonts.js ./
+RUN node googlefonts.js /build/static/style.css
 
 ###################################
 FROM amd64/alpine:3.10
