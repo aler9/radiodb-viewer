@@ -95,7 +95,9 @@ RUN npm i
 
 ARG BUILD_MODE
 RUN test -n "$BUILD_MODE"
-COPY script/.eslintrc.js script/babel.config.js script/webpack.config.js \
+COPY .eslintrc.browser.js ./.eslintrc.js
+COPY script/babel.config.js \
+    script/webpack.config.js \
     .browserslistrc script/*.jsx ./
 RUN node_modules/.bin/webpack
 
@@ -120,7 +122,9 @@ WORKDIR /s
 COPY style/package*.json ./
 RUN npm i
 
-COPY style/stylelint.config.js style/postcss.config.js .browserslistrc \
+COPY stylelint.config.js \
+    style/postcss.config.js \
+    .browserslistrc \
     style/*.scss ./
 RUN mkdir -p /build/static \
     && node_modules/.bin/stylelint *.scss \

@@ -1,3 +1,4 @@
+
 module.exports = {
     "extends": "stylelint-config-recommended",
     "rules": {
@@ -7,5 +8,6 @@ module.exports = {
         }],
         "indentation": 4,
         "block-opening-brace-newline-after": "always",
+        "declaration-colon-space-after": "always",
     },
-}
+};
