@@ -61,7 +61,7 @@
     <br />
     Audio and video materials mentioned in the site are exclusively non-commercial, non-official and freely available recordings.
     <br />
-    Report abuses at <a href="mailto:gswly.dev@gmail.com">gswly.dev@gmail.com</a> to have an entry removed.
+    If you want to have an entry removed, write to <a href="mailto:aler9.dev@gmail.com">aler9.dev@gmail.com</a>
 </footer>
 
 </div>
