@@ -72,8 +72,10 @@ FROM amd64/node:12-alpine AS image
 
 WORKDIR /s
 
-COPY image/package*.json ./
-RUN npm i
+COPY image/package.json \
+    image/yarn.lock \
+    ./
+RUN yarn install
 
 COPY image/*.png /build/static/
 
@@ -90,8 +92,10 @@ FROM amd64/node:12-alpine AS script
 
 WORKDIR /s
 
-COPY script/package*.json ./
-RUN npm i
+COPY script/package.json \
+    script/yarn.lock \
+    ./
+RUN yarn install
 
 ARG BUILD_MODE
 RUN test -n "$BUILD_MODE"
@@ -119,8 +123,10 @@ FROM amd64/node:12-alpine AS style
 
 WORKDIR /s
 
-COPY style/package*.json ./
-RUN npm i
+COPY style/package.json \
+    style/yarn.lock \
+    ./
+RUN yarn install
 
 COPY stylelint.config.js \
     style/postcss.config.js \
