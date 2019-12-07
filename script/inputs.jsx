@@ -133,8 +133,8 @@ export class RangeSelect extends Component {
 
     render() {
         return <div className="range-select">
-            <div className="max">{ this.state.validValue[1] }</div>
             <div className="min">{ this.state.validValue[0] }</div>
+            <div className="max">{ this.state.validValue[1] }</div>
             <div className="slider">
                 <div className="range" style={ {
                     left: ((this.state.validValue[0] - this.state.validRange[0]) / (this.state.validRange[1] - this.state.validRange[0]) * 100) + "%",

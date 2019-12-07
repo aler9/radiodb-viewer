@@ -132,8 +132,8 @@ COPY stylelint.config.js \
     style/postcss.config.js \
     .browserslistrc \
     style/*.scss ./
+RUN node_modules/.bin/stylelint *.scss
 RUN mkdir -p /build/static \
-    && node_modules/.bin/stylelint *.scss \
     && cat style.scss \
     | node_modules/.bin/node-sass \
     | node_modules/.bin/postcss \

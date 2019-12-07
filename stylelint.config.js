@@ -8,6 +8,8 @@ module.exports = {
         }],
         "indentation": 4,
         "block-opening-brace-newline-after": "always",
+        "block-opening-brace-space-before": "always",
         "declaration-colon-space-after": "always",
+        "property-blacklist": [ "float" ],
     },
 };
