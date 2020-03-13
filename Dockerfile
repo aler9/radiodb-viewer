@@ -151,7 +151,7 @@ RUN echo $'#!/bin/sh\n\
 wait\n\
 ' > /start.sh && chmod +x /start.sh
 
-RUN adduser -D -H -s /bin/sh -u 1000 user
+RUN adduser -D -H -s /bin/sh -u 1078 user
 
 COPY --from=back /build /build
 COPY --from=countryflag /build /build
