@@ -78,6 +78,6 @@ func main() {
 	r.GET("/dumpget", h.onPageDumpGet)
 	r.HEAD("/dumpget", h.onPageDumpGet)
 
-	log.Printf("serving router on %s", HTTP_ADDR)
+	log.Printf("[router] serving on %s", HTTP_ADDR)
 	r.Run(HTTP_ADDR)
 }

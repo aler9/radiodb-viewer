@@ -47,6 +47,12 @@ func main() {
 
 	db := &Database{}
 
+	db.load()
+
+	db.serve()
+}
+
+func (db *database) load() {
 	MustImportJson(DB_FILE, &db.db)
 
 	db.showKeywords = make(map[string]map[string]struct{})
@@ -105,14 +111,15 @@ func main() {
 		db.perYearBootlegs[year]++
 		db.perYearSize[year] += b.Size
 	}
+}
 
-	// init server
+func (db *database) serve() {
 	listener, err := net.Listen("tcp", DB_ADDR)
 	if err != nil {
 		panic(err)
 	}
 	server := grpc.NewServer()
 	shared.RegisterDatabaseServer(server, db)
-	log.Printf("serving database on %s", DB_ADDR)
+	log.Printf("[db] serving on %s", DB_ADDR)
 	server.Serve(listener)
 }
