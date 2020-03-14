@@ -16,7 +16,6 @@ import (
 func (h *router) onPageFront(c *gin.Context) {
 	front, err := h.dbClient.Front(context.Background(), &shared.FrontReq{})
 	if err != nil {
-		panic(err)
 		http.Error(c.Writer, "500 internal server error", http.StatusInternalServerError)
 		return
 	}
