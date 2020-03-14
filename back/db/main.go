@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	DB_ADDR = "localhost:4002"
+	DB_ADDR = ":4002"
 	DB_FILE = "/data/radiodb.json"
 )
 
