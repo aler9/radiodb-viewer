@@ -20,7 +20,7 @@ func (h *router) frameWrapper(c *gin.Context, conf FrameConf) string {
 		title += " | The complete Radiohead bootlegs database"
 	}
 
-	return TplRender(h.templates["frame"], gin.H{
+	return templateRender(h.templates["frame"], gin.H{
 		"CurPath": c.Request.URL.Path,
 		"Title":   title,
 		"Class":   conf.Class,

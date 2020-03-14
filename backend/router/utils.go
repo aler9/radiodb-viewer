@@ -10,7 +10,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func FormatFirstSeen(ts *timestamp.Timestamp, format string) string {
+func formatFirstSeen(ts *timestamp.Timestamp, format string) string {
 	date := shared.PbtimeToTime(ts)
 
 	ret := ""
@@ -22,7 +22,7 @@ func FormatFirstSeen(ts *timestamp.Timestamp, format string) string {
 	return ret
 }
 
-func FormatDuration(duration float64) string {
+func formatDuration(duration float64) string {
 	d := time.Duration(duration*1000.0) * time.Millisecond
 	h := d / time.Hour
 	d -= h * time.Hour

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"html/template"
+	"net/http"
 	"net/url"
 	"strings"
 	"time"
@@ -31,22 +32,22 @@ func SafeHtmlNewlines(in string) template.HTML {
 func (h *router) onPageBootleg(c *gin.Context) {
 	res, err := h.dbClient.Bootleg(context.Background(), &shared.BootlegReq{Id: c.Param("id")})
 	if err != nil {
-		GinServerErrorText(c)
+		http.Error(c.Writer, "500 internal server error", http.StatusInternalServerError)
 		return
 	}
 
 	b := res.Item
 	s := res.Show
 	if b == nil {
-		GinNotFoundText(c)
+		http.Error(c.Writer, "404 page not found", http.StatusNotFound)
 		return
 	}
 
 	sd, _ := time.Parse("2006-01-02", s.Date)
 
-	GinTpl(c, h.frameWrapper(c, FrameConf{
+	ginTemplate(c, h.frameWrapper(c, FrameConf{
 		Title: fmt.Sprintf("Bootleg \"%s\"", b.Name),
-		Content: TplRender(h.templates["bootleg"], gin.H{
+		Content: templateRender(h.templates["bootleg"], gin.H{
 			"Name":             b.Name,
 			"Type":             b.Type,
 			"TypeLong":         shared.LabelMediaType(b.Type),
@@ -60,7 +61,7 @@ func (h *router) onPageBootleg(c *gin.Context) {
 			"LabelCountry":     shared.LabelCountry(s),
 			"Tour":             s.Tour,
 			"LabelTour":        shared.LabelTour(s),
-			"FirstSeen":        FormatFirstSeen(b.FirstSeen, "2 January 2006"),
+			"FirstSeen":        formatFirstSeen(b.FirstSeen, "2 January 2006"),
 			"MinfoFormat":      shared.LabelMediaFormat(b),
 			"MinfoVideoCodec":  shared.LabelVideoCodec(b),
 			"MinfoVideoRes":    shared.LabelVideoResolution(b),
@@ -71,7 +72,7 @@ func (h *router) onPageBootleg(c *gin.Context) {
 				if b.Duration == 0 {
 					return "unknown"
 				}
-				return FormatDuration(b.Duration)
+				return formatDuration(b.Duration)
 			}(),
 			"Files": func() (ret []gin.H) {
 				for _, f := range b.Files {
@@ -82,7 +83,7 @@ func (h *router) onPageBootleg(c *gin.Context) {
 							if f.Duration == 0 {
 								return ""
 							}
-							return FormatDuration(f.Duration)
+							return formatDuration(f.Duration)
 						}(),
 						"TTH":    f.TTH,
 						"Magnet": template.URL(MagnetLink(f)),

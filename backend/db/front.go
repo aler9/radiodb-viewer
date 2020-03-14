@@ -9,10 +9,13 @@ import (
 )
 
 func (db *database) Front(context.Context, *shared.FrontReq) (*shared.FrontRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	res := &shared.FrontRes{}
 
 	func() {
-		for _, s := range db.db.Shows {
+		for _, s := range db.data.Shows {
 			res.LastShows = append(res.LastShows, s)
 		}
 
@@ -30,7 +33,7 @@ func (db *database) Front(context.Context, *shared.FrontReq) (*shared.FrontRes, 
 	}()
 
 	func() {
-		for _, b := range db.db.Bootlegs {
+		for _, b := range db.data.Bootlegs {
 			res.LastBootlegs = append(res.LastBootlegs, b)
 		}
 
@@ -45,11 +48,11 @@ func (db *database) Front(context.Context, *shared.FrontReq) (*shared.FrontRes, 
 
 		res.LastBootlegShows = make(map[string]*defs.RadioShow)
 		for _, b := range res.LastBootlegs {
-			res.LastBootlegShows[b.Show] = db.db.Shows[b.Show]
+			res.LastBootlegShows[b.Show] = db.data.Shows[b.Show]
 		}
 	}()
 
-	res.Stats = &db.db.Stats
+	res.Stats = &db.data.Stats
 
 	return res, nil
 }

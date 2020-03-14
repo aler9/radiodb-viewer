@@ -12,6 +12,9 @@ import (
 )
 
 func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFilteredReq) (*shared.BootlegsFilteredRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	res := &shared.BootlegsFilteredRes{
 		Choices: &shared.BootlegsFilteredChoices{
 			Media:    make(map[string]string),
@@ -21,9 +24,9 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 		Shows: make(map[string]*defs.RadioShow),
 	}
 
-	textKeywords := GetTextKeywords(in.Text, 1)
+	textKeywords := getTextKeywords(in.Text, 1)
 
-	for _, b := range db.db.Bootlegs {
+	for _, b := range db.data.Bootlegs {
 		// choices
 		if _, ok := res.Choices.Media[b.Type]; !ok {
 			res.Choices.Media[b.Type] = shared.LabelMediaType(b.Type)
@@ -46,8 +49,8 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 		// filters
 		if len(textKeywords) > 0 && func() bool {
 			// search by TTH
-			if len(textKeywords) == 1 && len(FirstKey(textKeywords)) == 39 {
-				tth := strings.ToUpper(FirstKey(textKeywords))
+			if len(textKeywords) == 1 && len(firstKey(textKeywords)) == 39 {
+				tth := strings.ToUpper(firstKey(textKeywords))
 
 				for _, f := range b.Files {
 					if f.TTH == tth {
@@ -111,7 +114,7 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 	switch in.Sort {
 	case "sdate_desc":
 		sort.Slice(res.Items, func(i, j int) bool {
-			if d1, d2 := db.db.Shows[res.Items[i].Show].Date, db.db.Shows[res.Items[j].Show].Date; d1 != d2 {
+			if d1, d2 := db.data.Shows[res.Items[i].Show].Date, db.data.Shows[res.Items[j].Show].Date; d1 != d2 {
 				return d1 > d2
 			}
 			return res.Items[i].Id < res.Items[j].Id
@@ -119,7 +122,7 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 
 	case "sdate_asc":
 		sort.Slice(res.Items, func(i, j int) bool {
-			if d1, d2 := db.db.Shows[res.Items[i].Show].Date, db.db.Shows[res.Items[j].Show].Date; d1 != d2 {
+			if d1, d2 := db.data.Shows[res.Items[i].Show].Date, db.data.Shows[res.Items[j].Show].Date; d1 != d2 {
 				return d1 < d2
 			}
 			return res.Items[i].Id < res.Items[j].Id
@@ -150,7 +153,7 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 		})
 	}
 
-	start, end, FullyLoaded, ok := Pagination(in.CurPage, uint32(len(res.Items)), 20)
+	start, end, FullyLoaded, ok := pagination(in.CurPage, uint32(len(res.Items)), 20)
 	if !ok {
 		return nil, fmt.Errorf("invalid page")
 	}
@@ -158,7 +161,7 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 	res.Items = res.Items[start:end]
 
 	for _, b := range res.Items {
-		res.Shows[b.Show] = db.db.Shows[b.Show]
+		res.Shows[b.Show] = db.data.Shows[b.Show]
 	}
 
 	if in.CurPage != 0 {
@@ -169,21 +172,28 @@ func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 }
 
 func (db *database) Bootleg(ctx context.Context, req *shared.BootlegReq) (*shared.BootlegRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	res := &shared.BootlegRes{}
-	if b, ok := db.db.Bootlegs[req.Id]; ok {
-		if s, ok := db.db.Shows[b.Show]; ok {
+	if b, ok := db.data.Bootlegs[req.Id]; ok {
+		if s, ok := db.data.Shows[b.Show]; ok {
 			res.Item = b
 			res.Show = s
 		}
 	}
+
 	return res, nil
 }
 
 func (db *database) BootlegRand(context.Context, *shared.BootlegRandReq) (*shared.BootlegRandRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	res := &shared.BootlegRandRes{}
 
 	var bs []string
-	for _, b := range db.db.Bootlegs {
+	for _, b := range db.data.Bootlegs {
 		bs = append(bs, b.Id)
 	}
 	res.Id = bs[rand.Intn(len(bs))]

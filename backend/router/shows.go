@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +13,9 @@ import (
 )
 
 func (h *router) onPageShows(c *gin.Context) {
-	GinTpl(c, h.frameWrapper(c, FrameConf{
+	ginTemplate(c, h.frameWrapper(c, FrameConf{
 		Title:   "Shows",
-		Content: TplRender(h.templates["shows"], nil),
+		Content: templateRender(h.templates["shows"], nil),
 	}))
 }
 
@@ -28,8 +30,8 @@ func (h *router) onDataShows(c *gin.Context) {
 		Media   []string
 		CurPage uint32
 	}
-	if err := GinPostBody(c, &in); err != nil {
-		GinServerErrorJson(c)
+	if err := json.NewDecoder(c.Request.Body).Decode(&in); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 
@@ -44,11 +46,11 @@ func (h *router) onDataShows(c *gin.Context) {
 		CurPage: in.CurPage,
 	})
 	if err != nil {
-		GinServerErrorJson(c)
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 
-	GinJson(c, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"fullyLoaded": res.FullyLoaded,
 		"choices": func() gin.H {
 			if res.Choices != nil {
@@ -73,7 +75,7 @@ func (h *router) onDataShows(c *gin.Context) {
 						"title": fmt.Sprintf("%s, %s, %s, %s",
 							shared.LabelArtist(s), d.Format("2 January 2006"), s.City, shared.LabelCountry(s)),
 					},
-					"cnt": TplRender(h.templates["showentry"], gin.H{
+					"cnt": templateRender(h.templates["showentry"], gin.H{
 						"Id":               s.Id,
 						"Date":             d.Format("2 January 2006"),
 						"Artist":           s.Artist,

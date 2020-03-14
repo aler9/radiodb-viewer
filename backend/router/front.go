@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
@@ -15,7 +16,8 @@ import (
 func (h *router) onPageFront(c *gin.Context) {
 	front, err := h.dbClient.Front(context.Background(), &shared.FrontReq{})
 	if err != nil {
-		GinServerErrorText(c)
+		panic(err)
+		http.Error(c.Writer, "500 internal server error", http.StatusInternalServerError)
 		return
 	}
 
@@ -28,10 +30,10 @@ func (h *router) onPageFront(c *gin.Context) {
 		return in
 	}
 
-	GinTpl(c, h.frameWrapper(c, FrameConf{
+	ginTemplate(c, h.frameWrapper(c, FrameConf{
 		Title: "",
 		Class: "front",
-		Content: TplRender(h.templates["front"], gin.H{
+		Content: templateRender(h.templates["front"], gin.H{
 			"ShowsLast": func() (ret []gin.H) {
 				for _, s := range front.LastShows {
 					da, _ := time.Parse("2006-01-02", s.Date)

@@ -12,19 +12,22 @@ import (
 )
 
 func (db *database) Search(ctx context.Context, req *shared.SearchReq) (*shared.SearchRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	out := &shared.SearchRes{}
 
-	queryKeywords := GetTextKeywords(req.Query, 1)
+	queryKeywords := getTextKeywords(req.Query, 1)
 	if len(queryKeywords) == 0 {
 		return out, nil
 	}
 
 	// search by TTH
-	if len(queryKeywords) == 1 && len(FirstKey(queryKeywords)) == 39 {
-		tth := strings.ToUpper(FirstKey(queryKeywords))
+	if len(queryKeywords) == 1 && len(firstKey(queryKeywords)) == 39 {
+		tth := strings.ToUpper(firstKey(queryKeywords))
 
 		if b := func() *defs.RadioBootleg {
-			for _, b := range db.db.Bootlegs {
+			for _, b := range db.data.Bootlegs {
 				for _, f := range b.Files {
 					if f.TTH == tth {
 						return b
@@ -61,7 +64,7 @@ func (db *database) Search(ctx context.Context, req *shared.SearchReq) (*shared.
 			}
 			if score >= len(queryKeywords) {
 				scores = append(scores, Score{
-					Show:  db.db.Shows[id],
+					Show:  db.data.Shows[id],
 					Score: score,
 				})
 			}

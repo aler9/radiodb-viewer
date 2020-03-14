@@ -11,6 +11,9 @@ import (
 )
 
 func (db *database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredReq) (*shared.ShowsFilteredRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	res := &shared.ShowsFilteredRes{
 		Choices: &shared.ShowsFilteredChoices{
 			Artist:  make(map[string]string),
@@ -21,9 +24,9 @@ func (db *database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
 		},
 	}
 
-	textKeywords := GetTextKeywords(in.Text, 1)
+	textKeywords := getTextKeywords(in.Text, 1)
 
-	for _, s := range db.db.Shows {
+	for _, s := range db.data.Shows {
 		// choices
 		if _, ok := res.Choices.Artist[s.Artist]; !ok {
 			res.Choices.Artist[s.Artist] = shared.LabelArtist(s)
@@ -163,7 +166,7 @@ func (db *database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
 		})
 	}
 
-	start, end, FullyLoaded, ok := Pagination(in.CurPage, uint32(len(res.Items)), 20)
+	start, end, FullyLoaded, ok := pagination(in.CurPage, uint32(len(res.Items)), 20)
 	if !ok {
 		return nil, fmt.Errorf("invalid page")
 	}
@@ -178,14 +181,18 @@ func (db *database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
 }
 
 func (db *database) Show(ctx context.Context, req *shared.ShowReq) (*shared.ShowRes, error) {
+	db.mutex.RLock()
+	defer db.mutex.RUnlock()
+
 	res := &shared.ShowRes{}
-	if s, ok := db.db.Shows[req.Id]; ok {
+	if s, ok := db.data.Shows[req.Id]; ok {
 		res.Item = s
-		for _, b := range db.db.Bootlegs {
+		for _, b := range db.data.Bootlegs {
 			if b.Show == s.Id {
 				res.Bootlegs = append(res.Bootlegs, b)
 			}
 		}
 	}
+
 	return res, nil
 }

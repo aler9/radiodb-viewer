@@ -9,11 +9,11 @@ WORKDIR /s
 RUN go mod init temp \
     && go get github.com/pariz/gountries@adb00f6
 
-COPY back/gencountrymeta.go ./
+COPY backend/gencountrymeta.go ./
 RUN go run gencountrymeta.go
 
 ###################################
-FROM amd64/golang:1.12-alpine3.10 AS back
+FROM amd64/golang:1.12-alpine3.10 AS backend
 
 RUN apk add --no-cache \
     git \
@@ -21,13 +21,13 @@ RUN apk add --no-cache \
 
 WORKDIR /s
 
-COPY back/go.mod back/go.sum ./
+COPY backend/go.mod backend/go.sum ./
 RUN go mod download
 
 # grpc
 RUN go install github.com/golang/protobuf/protoc-gen-go
-COPY back/defs/*.proto ./defs/
-COPY back/shared/*.proto ./shared/
+COPY backend/defs/*.proto ./defs/
+COPY backend/shared/*.proto ./shared/
 RUN cd ./defs && protoc pdefs.proto \
     --go_out=paths=source_relative:.
 RUN cd ./shared && protoc -I ../defs -I . db.proto \
@@ -37,15 +37,15 @@ ARG BUILD_MODE
 RUN test -n "$BUILD_MODE"
 
 COPY --from=countrymeta /s/countrymeta.go ./shared/
-COPY back/defs/*.go ./defs/
-COPY back/shared/*.go ./shared/
+COPY backend/defs/*.go ./defs/
+COPY backend/shared/*.go ./shared/
 
 ENV CGO_ENABLED 0
 
-COPY back/db/*.go ./db/
+COPY backend/db/*.go ./db/
 RUN go build -o /build/db ./db
 
-COPY back/router/*.go ./router/
+COPY backend/router/*.go ./router/
 RUN go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./router
 
 ###################################
@@ -145,21 +145,19 @@ RUN node googlefonts.js /build/static/style.css
 ###################################
 FROM amd64/alpine:3.10
 
-RUN echo $'#!/bin/sh\n\
-/build/db &\n\
-/build/router &\n\
-wait\n\
-' > /start.sh && chmod +x /start.sh
+RUN apk add --no-cache \
+    curl
 
 RUN adduser -D -H -s /bin/sh -u 1078 user
 
-COPY --from=back /build /build
+COPY --from=backend /build /build
 COPY --from=countryflag /build /build
 COPY --from=image /build /build
 COPY --from=script /build /build
 COPY --from=template /build /build
 COPY --from=style /build /build
 
-USER user
+COPY start.sh /
+RUN chmod +x /start.sh
 
 ENTRYPOINT [ "/start.sh" ]

@@ -13,10 +13,10 @@ import (
 	"rdbviewer/shared"
 )
 
-// custom version of MustImportJson() that reads directly from file
+// custom version of mustImportJson() that reads directly from file
 // ram usage is lower, performance is almost the same
 // jsoniter is used for import but not for export since it does not correctly indent during export
-func MustImportJson(src string, dest interface{}) {
+func mustImportJson(src string, dest interface{}) {
 	f, err := os.Open(src)
 	if err != nil {
 		panic(err)
@@ -31,14 +31,14 @@ func MustImportJson(src string, dest interface{}) {
 	}
 }
 
-func FirstKey(in map[string]struct{}) string {
+func firstKey(in map[string]struct{}) string {
 	for k := range in {
 		return k
 	}
 	return ""
 }
 
-func GetTextKeywords(in string, minLength int) map[string]struct{} {
+func getTextKeywords(in string, minLength int) map[string]struct{} {
 	// replace accents
 	t := transform.Chain(norm.NFD, transform.RemoveFunc(func(r rune) bool {
 		return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
@@ -59,7 +59,7 @@ func GetTextKeywords(in string, minLength int) map[string]struct{} {
 	return ret
 }
 
-func Pagination(curPage uint32, itemsCount uint32, itemsPerPage uint32) (uint32, uint32, bool, bool) {
+func pagination(curPage uint32, itemsCount uint32, itemsPerPage uint32) (uint32, uint32, bool, bool) {
 	if itemsCount == 0 && curPage == 0 {
 		return 0, 0, true, true
 	}

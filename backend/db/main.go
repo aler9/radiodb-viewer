@@ -4,11 +4,11 @@ import (
 	"log"
 	"math/rand"
 	"net"
-	"net/http"
-	_ "net/http/pprof"
 	"os"
+	"sync"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
 
 	"rdbviewer/defs"
@@ -16,13 +16,15 @@ import (
 )
 
 const (
-	DB_ADDR = ":4002"
-	DB_FILE = "/data/radiodb.json"
+	DB_UPLOADER_ADDR = ":4001"
+	DB_API_ADDR      = ":4002"
+	DB_FILE          = "/data/radiodb.json"
 )
 
 type database struct {
-	db defs.RadioOut
-	// derivated, cached data
+	mutex sync.RWMutex
+
+	data            defs.RadioOut
 	showKeywords    map[string]map[string]struct{}
 	bootlegKeywords map[string]map[string]struct{}
 	perYearShows    map[uint32]int32
@@ -31,14 +33,7 @@ type database struct {
 }
 
 func main() {
-	pprofMux := http.DefaultServeMux
-	go func() {
-		(&http.Server{
-			Addr:    ":9998",
-			Handler: pprofMux,
-		}).ListenAndServe()
-	}()
-	http.DefaultServeMux = http.NewServeMux()
+	pprofInit()
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -49,17 +44,28 @@ func main() {
 
 	db.load()
 
-	db.serve()
+	go db.serveUploader()
+	db.serveApi()
 }
 
 func (db *database) load() {
-	MustImportJson(DB_FILE, &db.db)
+	if _, err := os.Stat(DB_FILE); err != nil {
+		if !os.IsNotExist(err) {
+			panic(err)
+		}
+
+		log.Printf("[db] %s does not exist and is not loaded")
+		return
+	}
+
+	db.data = defs.RadioOut{}
+	mustImportJson(DB_FILE, &db.data)
 
 	db.showKeywords = make(map[string]map[string]struct{})
-	for _, s := range db.db.Shows {
+	for _, s := range db.data.Shows {
 		db.showKeywords[s.Id] = make(map[string]struct{})
 		pushText := func(text string) {
-			for word := range GetTextKeywords(text, 2) {
+			for word := range getTextKeywords(text, 2) {
 				db.showKeywords[s.Id][word] = struct{}{}
 			}
 		}
@@ -72,17 +78,17 @@ func (db *database) load() {
 	}
 
 	db.bootlegKeywords = make(map[string]map[string]struct{})
-	for _, b := range db.db.Bootlegs {
+	for _, b := range db.data.Bootlegs {
 		db.bootlegKeywords[b.Id] = make(map[string]struct{})
 		pushText := func(text string) {
-			for word := range GetTextKeywords(text, 2) {
+			for word := range getTextKeywords(text, 2) {
 				db.bootlegKeywords[b.Id][word] = struct{}{}
 			}
 		}
 
 		pushText(b.Name)
 
-		s := db.db.Shows[b.Show]
+		s := db.data.Shows[b.Show]
 		pushText(shared.LabelArtist(s))
 		pushText(s.City)
 		pushText(s.CountryCode)
@@ -99,13 +105,13 @@ func (db *database) load() {
 		db.perYearBootlegs[i] = 0
 		db.perYearSize[i] = 0
 	}
-	for _, s := range db.db.Shows {
+	for _, s := range db.data.Shows {
 		d, _ := time.Parse("2006-01-02", s.Date)
 		year := shared.Atoui32(d.Format("2006"))
 		db.perYearShows[year]++
 	}
-	for _, b := range db.db.Bootlegs {
-		s := db.db.Shows[b.Show]
+	for _, b := range db.data.Bootlegs {
+		s := db.data.Shows[b.Show]
 		d, _ := time.Parse("2006-01-02", s.Date)
 		year := shared.Atoui32(d.Format("2006"))
 		db.perYearBootlegs[year]++
@@ -113,13 +119,25 @@ func (db *database) load() {
 	}
 }
 
-func (db *database) serve() {
-	listener, err := net.Listen("tcp", DB_ADDR)
+func (db *database) serveUploader() {
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.New()
+
+	router.POST("/upload", db.onUpload)
+
+	log.Printf("[db] serving uploader on %s", DB_UPLOADER_ADDR)
+	router.Run(DB_UPLOADER_ADDR)
+}
+
+func (db *database) serveApi() {
+	server := grpc.NewServer()
+	shared.RegisterDatabaseServer(server, db)
+
+	listener, err := net.Listen("tcp", DB_API_ADDR)
 	if err != nil {
 		panic(err)
 	}
-	server := grpc.NewServer()
-	shared.RegisterDatabaseServer(server, db)
-	log.Printf("[db] serving on %s", DB_ADDR)
+
+	log.Printf("[db] serving api on %s", DB_API_ADDR)
 	server.Serve(listener)
 }

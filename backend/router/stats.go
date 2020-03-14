@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"html/template"
+	"net/http"
 	"time"
 
 	"github.com/dustin/go-humanize"
@@ -15,7 +16,7 @@ import (
 func (h *router) onPageStats(c *gin.Context) {
 	stats, err := h.dbClient.Stats(context.Background(), &shared.StatsReq{})
 	if err != nil {
-		GinServerErrorText(c)
+		http.Error(c.Writer, "500 internal server error", http.StatusInternalServerError)
 		return
 	}
 
@@ -24,9 +25,9 @@ func (h *router) onPageStats(c *gin.Context) {
 	dlb, _ := time.Parse("2006-01-02", stats.Stats.DateLastBootleg)
 	g, _ := time.Parse(time.RFC3339, stats.Stats.Generated)
 
-	GinTpl(c, h.frameWrapper(c, FrameConf{
+	ginTemplate(c, h.frameWrapper(c, FrameConf{
 		Title: "Statistics",
-		Content: TplRender(h.templates["stats"], gin.H{
+		Content: templateRender(h.templates["stats"], gin.H{
 			"Stats":           stats.Stats,
 			"Generated":       g.Format("2 January 2006"),
 			"DateLastBootleg": dlb.Format("2 January 2006"),

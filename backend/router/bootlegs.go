@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 
@@ -13,9 +15,9 @@ import (
 )
 
 func (h *router) onPageBootlegs(c *gin.Context) {
-	GinTpl(c, h.frameWrapper(c, FrameConf{
+	ginTemplate(c, h.frameWrapper(c, FrameConf{
 		Title:   "Bootlegs",
-		Content: TplRender(h.templates["bootlegs"], nil),
+		Content: templateRender(h.templates["bootlegs"], nil),
 	}))
 }
 
@@ -28,8 +30,8 @@ func (h *router) onDataBootlegs(c *gin.Context) {
 		VideoRes []string
 		CurPage  uint32
 	}
-	if err := GinPostBody(c, &in); err != nil {
-		GinServerErrorJson(c)
+	if err := json.NewDecoder(c.Request.Body).Decode(&in); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 
@@ -42,11 +44,11 @@ func (h *router) onDataBootlegs(c *gin.Context) {
 		CurPage:  in.CurPage,
 	})
 	if err != nil {
-		GinServerErrorJson(c)
+		c.JSON(http.StatusInternalServerError, gin.H{})
 		return
 	}
 
-	GinJson(c, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"fullyLoaded": res.FullyLoaded,
 		"choices": func() gin.H {
 			if res.Choices != nil {
@@ -70,10 +72,10 @@ func (h *router) onDataBootlegs(c *gin.Context) {
 						"className": "entry",
 						"title":     b.Name,
 					},
-					"cnt": TplRender(h.templates["bootlegentry"], gin.H{
+					"cnt": templateRender(h.templates["bootlegentry"], gin.H{
 						"Id":        b.Id,
 						"Name":      b.Name,
-						"FirstSeen": FormatFirstSeen(b.FirstSeen, "2 Jan 2006"),
+						"FirstSeen": formatFirstSeen(b.FirstSeen, "2 Jan 2006"),
 						"Type":      b.Type,
 						"TypeLong":  shared.LabelMediaType(b.Type),
 						"Res":       shared.LabelShortResolution(b),
@@ -81,7 +83,7 @@ func (h *router) onDataBootlegs(c *gin.Context) {
 							if b.Duration == 0 {
 								return ""
 							}
-							return FormatDuration(b.Duration)
+							return formatDuration(b.Duration)
 						}(),
 						"Size": humanize.Bytes(b.Size),
 						"Show": fmt.Sprintf("%s, %s, %s, %s",

@@ -3,8 +3,6 @@ package main
 import (
 	"log"
 	"math/rand"
-	"net/http"
-	_ "net/http/pprof"
 	"os"
 	"time"
 
@@ -27,14 +25,7 @@ type router struct {
 }
 
 func main() {
-	pprofMux := http.DefaultServeMux
-	go func() {
-		(&http.Server{
-			Addr:    ":9999",
-			Handler: pprofMux,
-		}).ListenAndServe()
-	}()
-	http.DefaultServeMux = http.NewServeMux()
+	pprofInit()
 
 	rand.Seed(time.Now().UnixNano())
 
@@ -51,33 +42,33 @@ func main() {
 	defer conn.Close()
 	h.dbClient = shared.NewDatabaseClient(conn)
 
-	h.templates = TplLoadAll("/build/template")
+	h.templates = templateLoadAll("/build/template")
 
 	gin.SetMode(gin.ReleaseMode)
-	r := gin.New()
+	router := gin.New()
 
 	// populate router
-	s := r.Group("/static/")
+	s := router.Group("/static/")
 	if BUILD_MODE == "prod" {
 		s.Use(func(c *gin.Context) {
 			c.Header("Cache-Control", "public, max-age=1296000") // 15 days
 		})
 	}
 	s.Static("/", "/build/static")
-	r.GET("/", h.onPageFront)
-	r.POST("/data/search", h.onDataSearch)
-	r.GET("/shows", h.onPageShows)
-	r.POST("/data/shows", h.onDataShows)
-	r.GET("/bootlegs", h.onPageBootlegs)
-	r.POST("/data/bootlegs", h.onDataBootlegs)
-	r.GET("/shows/:id", h.onPageShow)
-	r.GET("/bootlegs/:id", h.onPageBootleg)
-	r.GET("/random", h.onPageRandom)
-	r.GET("/stats", h.onPageStats)
-	r.GET("/dump", h.onPageDump)
-	r.GET("/dumpget", h.onPageDumpGet)
-	r.HEAD("/dumpget", h.onPageDumpGet)
+	router.GET("/", h.onPageFront)
+	router.POST("/data/search", h.onDataSearch)
+	router.GET("/shows", h.onPageShows)
+	router.POST("/data/shows", h.onDataShows)
+	router.GET("/bootlegs", h.onPageBootlegs)
+	router.POST("/data/bootlegs", h.onDataBootlegs)
+	router.GET("/shows/:id", h.onPageShow)
+	router.GET("/bootlegs/:id", h.onPageBootleg)
+	router.GET("/random", h.onPageRandom)
+	router.GET("/stats", h.onPageStats)
+	router.GET("/dump", h.onPageDump)
+	router.GET("/dumpget", h.onPageDumpGet)
+	router.HEAD("/dumpget", h.onPageDumpGet)
 
 	log.Printf("[router] serving on %s", HTTP_ADDR)
-	r.Run(HTTP_ADDR)
+	router.Run(HTTP_ADDR)
 }
