@@ -8,7 +8,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onPageRandom(c *gin.Context) {
+func (h *router) onPageRandom(c *gin.Context) {
 	res, err := h.dbClient.BootlegRand(context.Background(), &shared.BootlegRandReq{})
 	if err != nil {
 		GinServerErrorText(c)

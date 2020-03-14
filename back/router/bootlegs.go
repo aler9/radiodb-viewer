@@ -12,14 +12,14 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onPageBootlegs(c *gin.Context) {
+func (h *router) onPageBootlegs(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title:   "Bootlegs",
 		Content: TplRender(h.templates["bootlegs"], nil),
 	}))
 }
 
-func (h *Router) onDataBootlegs(c *gin.Context) {
+func (h *router) onDataBootlegs(c *gin.Context) {
 	var in struct {
 		Sort     string
 		Text     string

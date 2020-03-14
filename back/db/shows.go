@@ -10,7 +10,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (db *Database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredReq) (*shared.ShowsFilteredRes, error) {
+func (db *database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredReq) (*shared.ShowsFilteredRes, error) {
 	res := &shared.ShowsFilteredRes{
 		Choices: &shared.ShowsFilteredChoices{
 			Artist:  make(map[string]string),
@@ -177,7 +177,7 @@ func (db *Database) ShowsFiltered(ctx context.Context, in *shared.ShowsFilteredR
 	return res, nil
 }
 
-func (db *Database) Show(ctx context.Context, req *shared.ShowReq) (*shared.ShowRes, error) {
+func (db *database) Show(ctx context.Context, req *shared.ShowReq) (*shared.ShowRes, error) {
 	res := &shared.ShowRes{}
 	if s, ok := db.db.Shows[req.Id]; ok {
 		res.Item = s

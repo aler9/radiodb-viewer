@@ -11,7 +11,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFilteredReq) (*shared.BootlegsFilteredRes, error) {
+func (db *database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFilteredReq) (*shared.BootlegsFilteredRes, error) {
 	res := &shared.BootlegsFilteredRes{
 		Choices: &shared.BootlegsFilteredChoices{
 			Media:    make(map[string]string),
@@ -168,7 +168,7 @@ func (db *Database) BootlegsFiltered(ctx context.Context, in *shared.BootlegsFil
 	return res, nil
 }
 
-func (db *Database) Bootleg(ctx context.Context, req *shared.BootlegReq) (*shared.BootlegRes, error) {
+func (db *database) Bootleg(ctx context.Context, req *shared.BootlegReq) (*shared.BootlegRes, error) {
 	res := &shared.BootlegRes{}
 	if b, ok := db.db.Bootlegs[req.Id]; ok {
 		if s, ok := db.db.Shows[b.Show]; ok {
@@ -179,7 +179,7 @@ func (db *Database) Bootleg(ctx context.Context, req *shared.BootlegReq) (*share
 	return res, nil
 }
 
-func (db *Database) BootlegRand(context.Context, *shared.BootlegRandReq) (*shared.BootlegRandRes, error) {
+func (db *database) BootlegRand(context.Context, *shared.BootlegRandReq) (*shared.BootlegRandRes, error) {
 	res := &shared.BootlegRandRes{}
 
 	var bs []string

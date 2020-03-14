@@ -12,7 +12,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onPageFront(c *gin.Context) {
+func (h *router) onPageFront(c *gin.Context) {
 	front, err := h.dbClient.Front(context.Background(), &shared.FrontReq{})
 	if err != nil {
 		GinServerErrorText(c)

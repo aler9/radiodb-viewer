@@ -11,7 +11,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (db *Database) Search(ctx context.Context, req *shared.SearchReq) (*shared.SearchRes, error) {
+func (db *database) Search(ctx context.Context, req *shared.SearchReq) (*shared.SearchRes, error) {
 	out := &shared.SearchRes{}
 
 	queryKeywords := GetTextKeywords(req.Query, 1)

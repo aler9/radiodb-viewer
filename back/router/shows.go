@@ -10,14 +10,14 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onPageShows(c *gin.Context) {
+func (h *router) onPageShows(c *gin.Context) {
 	GinTpl(c, h.frameWrapper(c, FrameConf{
 		Title:   "Shows",
 		Content: TplRender(h.templates["shows"], nil),
 	}))
 }
 
-func (h *Router) onDataShows(c *gin.Context) {
+func (h *router) onDataShows(c *gin.Context) {
 	var in struct {
 		Sort    string
 		Text    string

@@ -8,7 +8,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (db *Database) Front(context.Context, *shared.FrontReq) (*shared.FrontRes, error) {
+func (db *database) Front(context.Context, *shared.FrontReq) (*shared.FrontRes, error) {
 	res := &shared.FrontRes{}
 
 	func() {

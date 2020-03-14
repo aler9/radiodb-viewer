@@ -28,7 +28,7 @@ func SafeHtmlNewlines(in string) template.HTML {
 	return template.HTML(ret)
 }
 
-func (h *Router) onPageBootleg(c *gin.Context) {
+func (h *router) onPageBootleg(c *gin.Context) {
 	res, err := h.dbClient.Bootleg(context.Background(), &shared.BootlegReq{Id: c.Param("id")})
 	if err != nil {
 		GinServerErrorText(c)

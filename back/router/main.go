@@ -21,7 +21,7 @@ const (
 
 var BUILD_MODE string
 
-type Router struct {
+type router struct {
 	templates TplMap
 	dbClient  shared.DatabaseClient
 }
@@ -41,7 +41,7 @@ func main() {
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.LstdFlags)
 
-	h := &Router{}
+	h := &router{}
 
 	// connect to database
 	conn, err := grpc.Dial(DB_ADDR, grpc.WithInsecure())

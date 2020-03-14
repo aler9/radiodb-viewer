@@ -12,7 +12,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onPageShow(c *gin.Context) {
+func (h *router) onPageShow(c *gin.Context) {
 	res, err := h.dbClient.Show(context.Background(), &shared.ShowReq{Id: c.Param("id")})
 	if err != nil {
 		GinServerErrorText(c)

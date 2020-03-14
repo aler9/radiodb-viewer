@@ -6,7 +6,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (db *Database) Stats(context.Context, *shared.StatsReq) (*shared.StatsRes, error) {
+func (db *database) Stats(context.Context, *shared.StatsReq) (*shared.StatsRes, error) {
 	res := &shared.StatsRes{}
 	res.Stats = &db.db.Stats
 	res.PerYearShows = db.perYearShows

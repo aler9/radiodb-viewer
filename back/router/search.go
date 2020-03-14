@@ -8,7 +8,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onDataSearch(c *gin.Context) {
+func (h *router) onDataSearch(c *gin.Context) {
 	var in struct {
 		Query string
 	}

@@ -20,7 +20,7 @@ const (
 	DB_FILE = "/data/radiodb.json"
 )
 
-type Database struct {
+type database struct {
 	db defs.RadioOut
 	// derivated, cached data
 	showKeywords    map[string]map[string]struct{}
@@ -45,7 +45,7 @@ func main() {
 	log.SetOutput(os.Stdout)
 	log.SetFlags(log.LstdFlags)
 
-	db := &Database{}
+	db := &database{}
 
 	db.load()
 

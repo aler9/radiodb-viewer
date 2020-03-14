@@ -12,7 +12,7 @@ type FrameConf struct {
 	Content string
 }
 
-func (h *Router) frameWrapper(c *gin.Context, conf FrameConf) string {
+func (h *router) frameWrapper(c *gin.Context, conf FrameConf) string {
 	title := "RadioDB"
 	if conf.Title != "" {
 		title += " - " + conf.Title

@@ -12,7 +12,7 @@ import (
 	"rdbviewer/shared"
 )
 
-func (h *Router) onPageStats(c *gin.Context) {
+func (h *router) onPageStats(c *gin.Context) {
 	stats, err := h.dbClient.Stats(context.Background(), &shared.StatsReq{})
 	if err != nil {
 		GinServerErrorText(c)
