@@ -145,9 +145,6 @@ RUN node googlefonts.js /build/static/style.css
 ###################################
 FROM amd64/alpine:3.10
 
-RUN apk add --no-cache \
-    curl
-
 RUN adduser -D -H -s /bin/sh -u 1078 user
 
 COPY --from=backend /build /build
