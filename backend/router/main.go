@@ -20,7 +20,7 @@ const (
 var BUILD_MODE string
 
 type router struct {
-	templates TplMap
+	templates templateMap
 	dbClient  shared.DatabaseClient
 }
 

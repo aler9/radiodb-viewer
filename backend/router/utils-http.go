@@ -9,10 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type TplMap map[string]*template.Template
+type templateMap map[string]*template.Template
 
-func templateLoadAll(dpath string) TplMap {
-	ret := make(TplMap)
+func templateLoadAll(dpath string) templateMap {
+	ret := make(templateMap)
 	files, err := ioutil.ReadDir(dpath)
 	if err != nil {
 		panic(err)

@@ -30,23 +30,18 @@ BUILD = docker build . \
 dev:
 	docker run --rm -it -v radiodb:/out amd64/alpine:3.8 \
 	sh -c "apk add curl && curl --compressed -o/out/radiodb.json https://radiodb.freeddns.org/dumpget"
-	make dev-inner
 
-dev-inner:
-	$(if $(shell command -v inotifywait 2>&1),,$(error inotifywait is required))
-
-	docker kill radiodb-viewer-dev >/dev/null 2>&1 || true
-
-	$(call BUILD,dev) \
-	&& ( docker run --rm \
-	--read-only \
-	-v radiodb:/data \
-	-p 7446:7446 \
-	--name radiodb-viewer-dev \
-	radiodb-viewer-dev & ) || true
-
-	inotifywait -qre close_write ./*/
-	make dev-inner
+	while true; do \
+		$(call BUILD,dev) \
+		&& ( docker kill radiodb-viewer-dev >/dev/null 2>&1 || true ) \
+		&& ( docker run --rm \
+		--read-only \
+		-v radiodb:/data \
+		-p 7446:7446 \
+		--name radiodb-viewer-dev \
+		radiodb-viewer-dev & ); \
+		inotifywait -qre close_write ./*/; \
+	done
 
 prod:
 	$(call BUILD,prod)
