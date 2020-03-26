@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "favicons": "5.4.1",
-        "svgo": "1.3.0"
+        "favicons": "^6.0.0",
+        "svgo": "^1.3.2"
     }
 }
