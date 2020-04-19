@@ -48,6 +48,11 @@ window.addEventListener("pjax-load", () => {
             },
             options: {
                 animation: false,
+                elements: {
+                    line: {
+                        tension: 0,
+                    },
+                },
                 tooltips: {
                     callbacks: {
                         label: (i, d) => {
