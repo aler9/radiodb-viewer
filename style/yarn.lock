@@ -1396,6 +1396,13 @@ gonzales-pe@^4.2.4:
   dependencies:
     minimist "1.1.x"
 
+googlefonts-inliner@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/googlefonts-inliner/-/googlefonts-inliner-0.2.1.tgz#3ffbd80feb9a7d84dfbfae852d80c722ced72b9c"
+  integrity sha512-Sdj2mSvjGnfprCyucXX/MFT5gltO3maTx0jVldh0Hv1Bhl2ASxRpP3sUtaYhawa8WU+xfmG59p4La10Y2Bhc8A==
+  dependencies:
+    postcss "^7.0.27"
+
 graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
@@ -2119,11 +2126,6 @@ nan@^2.13.2:
   version "2.14.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.0.tgz#7818f722027b2459a86f0295d434d1fc2336c52c"
   integrity sha512-INOFj37C7k3AfaNTtX8RhsTw7qRy7eLET14cROi9+5HAVbbHuIWUHEauBv5qT4Av2tWasiTY1Jw6puUNqRJXQg==
-
-node-fetch@2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
 node-gyp@^3.8.0:
   version "3.8.0"

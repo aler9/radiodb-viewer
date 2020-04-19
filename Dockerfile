@@ -139,9 +139,6 @@ RUN mkdir -p /build/static \
     | node_modules/.bin/postcss \
     > /build/static/style.css
 
-COPY style/googlefonts.js ./
-RUN node googlefonts.js /build/static/style.css
-
 ###################################
 FROM amd64/alpine:3.10
 
