@@ -1,6 +1,5 @@
 
 @import "reset.scss";
-@import "node_modules/breakpoint-sass/stylesheets/breakpoint.scss";
 @import "animations.scss";
 
 @import url('https://fonts.googleapis.com/css?family=Muli:200,300,400,700&display=swap');
@@ -17,12 +16,12 @@ $amsp1: rgb(240, 240, 240);
 $amsp2: #191919;
 
 @mixin tablet {
-    @include breakpoint(max-width 768.99999px) {
+    @media all and (max-width: 768.99999px) {
         @content
     }
 }
 @mixin not_tablet {
-    @include breakpoint(min-width 769px) {
+    @media all and (min-width: 769px) {
         @content
     }
 }
