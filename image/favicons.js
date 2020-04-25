@@ -20,6 +20,10 @@ const TEMPLATE_FILE = "/build/template/frame.tpl";
         appName: APP_NAME,
         icons: {
             appleStartup: false,
+            coast: false,
+            yandex: false,
+            firefox: false,
+            windows: false,
         },
     });
 
