@@ -16,12 +16,12 @@ $amsp1: rgb(240, 240, 240);
 $amsp2: #191919;
 
 @mixin tablet {
-    @media all and (max-width: 768.99999px) {
+    @media (max-width: 768.99999px) {
         @content
     }
 }
 @mixin not_tablet {
-    @media all and (min-width: 769px) {
+    @media (min-width: 769px) {
         @content
     }
 }
