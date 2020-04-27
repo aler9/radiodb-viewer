@@ -57,7 +57,7 @@
                 <span>{{ .Stats.MiscCount }}</span>
             </li>
             <li>
-                <span>Date of last bootleg</span>
+                <span>Date of latest bootleg</span>
                 <span>{{ .DateLastBootleg }}</span>
             </li>
         </ul>
