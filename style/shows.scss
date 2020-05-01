@@ -1,13 +1,15 @@
 
+@import "_variables.scss";
+
 #shows > div {
-    @include controlledlist;
+    @mixin controlledlist;
     font-size: 90%;
 
     a.entry {
         > span {
             &:not(:last-child) {
                 padding-right: 30px;
-                @include tablet {
+                @mixin tablet {
                     padding-right: 10px;
                 }
             }
@@ -33,13 +35,13 @@
             &.count {
                 text-align: right;
                 width: 160px;
-                @include tablet {
+                @mixin tablet {
                     width: 80px;
                 }
 
                 span {
                     padding: 0 6px;
-                    white-space: nowrap; // forbid newlines
+                    white-space: nowrap; /* forbid newlines */
                     img {
                         display: inline-block;
                         width: 18px;

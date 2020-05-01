@@ -1,34 +1,55 @@
-const webpack = require('webpack'),
-    path = require('path'),
-    TerserPlugin = require('terser-webpack-plugin')
+
+const webpack = require("webpack");
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-    mode: (process.env.BUILD_MODE == 'prod') ? 'production' : 'development',
+    mode: process.env.BUILD_MODE,
     entry: './main.jsx',
     output: {
         path: '/build/static',
-        filename: 'script.js',
+        filename: 'script.[hash].js',
     },
+    plugins: [new MiniCssExtractPlugin({
+        filename: 'style.[hash].css',
+    })],
     module: { rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'do-not-use',
-        },
         {
             test: /\.jsx$/,
             exclude: /node_modules/,
             use: [
-                { loader: 'babel-loader' },
-                { loader: 'eslint-loader' }
+                'babel-loader',
+                'eslint-loader',
+            ]
+        },
+        {
+            test: /\.scss$/,
+            exclude: /node_modules/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                { loader: 'css-loader', options: { url: false, import: false } },
+                'postcss-loader',
+            ]
+        },
+        {
+            test: /\.css$/,
+            include: /node_modules/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                { loader: 'css-loader', options: { url: false, import: false } },
             ]
         },
     ]},
     optimization: {
-        minimizer: [new TerserPlugin({
-            terserOptions: {
-                output: { comments: false }
-            },
-        })],
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    output: { comments: false }
+                },
+            }),
+            new OptimizeCSSAssetsPlugin(),
+        ],
     },
-}
+    stats: { children: false },
+};

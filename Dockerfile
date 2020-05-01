@@ -59,7 +59,7 @@ WORKDIR /s
 RUN go mod init temp \
     && go get github.com/disintegration/imaging@v1.6.0
 
-COPY image/gencountryflag.go ./
+COPY images/gencountryflag.go ./
 RUN git clone https://github.com/hjnilsson/country-flags \
     && cd country-flags*/ \
     && git checkout d5d1cc4 \
@@ -68,76 +68,53 @@ RUN git clone https://github.com/hjnilsson/country-flags \
     && mv png1000px/* /build/static/countryflag/
 
 ###################################
-FROM amd64/node:12-alpine AS image
+FROM scratch AS templates
+
+COPY templates/*.tpl /build/templates/
+
+###################################
+FROM amd64/node:12-alpine AS images
 
 WORKDIR /s
 
-COPY image/package.json \
-    image/yarn.lock \
-    ./
+COPY images/package.json images/yarn.lock ./
 RUN yarn install
 
-COPY image/*.png /build/static/
+COPY images/*.png /build/static/
 
-COPY image/favicons.js image/favicon.svg ./
-COPY template/frame.tpl /build/template/
+COPY images/favicons.js images/favicon.svg ./
+COPY --from=templates /build/templates/frame.tpl /build/templates/
 RUN node favicons.js
 
-COPY image/*.svg ./
+COPY images/*.svg ./
 RUN find . -maxdepth 1 -name '*.svg' ! -name 'favicon.svg' \
     | xargs -n1 sh -c 'node_modules/.bin/svgo -i $0 -o /build/static/$(basename $0)'
 
 ###################################
-FROM amd64/node:12-alpine AS script
+FROM amd64/node:12-alpine AS scriptstyle
 
 WORKDIR /s
 
-COPY script/package.json \
-    script/yarn.lock \
-    ./
+COPY script/package.json script/yarn.lock ./
 RUN yarn install
+
+COPY script/webpack.config.js \
+    script/.browserslistrc \
+    script/babel.config.js \
+    script/.eslintrc.js \
+    style/postcss.config.js \
+    style/stylelint.config.js \
+    ./
+
+COPY script/*.jsx ./
+COPY style/*.scss ./
 
 ARG BUILD_MODE
-RUN test -n "$BUILD_MODE"
-COPY .eslintrc.browser.js ./.eslintrc.js
-COPY script/babel.config.js \
-    script/webpack.config.js \
-    .browserslistrc script/*.jsx ./
 RUN node_modules/.bin/webpack
 
-###################################
-FROM amd64/alpine:3.10 AS template
-
-COPY template/*.tpl /build/template/
-COPY --from=image /build/template/frame.tpl /build/template/
-
-RUN RND=$(cat /dev/urandom | tr -dc 'a-z0-9' | fold -w 8 | head -n 1) \
-    && sed -i "s/\(style\.css\)/\1?$RND/" /build/template/frame.tpl \
-    && sed -i "s/\(script\.js\)/\1?$RND/" /build/template/frame.tpl \
-    && sed -i "s/\(\.ico\)/\1?$RND/" /build/template/* \
-    && sed -i "s/\(\.svg\)/\1?$RND/" /build/template/* \
-    && sed -i "s/\(\.png\)/\1?$RND/" /build/template/*
-
-###################################
-FROM amd64/node:12-alpine AS style
-
-WORKDIR /s
-
-COPY style/package.json \
-    style/yarn.lock \
-    ./
-RUN yarn install
-
-COPY stylelint.config.js \
-    style/postcss.config.js \
-    .browserslistrc \
-    style/*.scss ./
-RUN node_modules/.bin/stylelint *.scss
-RUN mkdir -p /build/static \
-    && cat style.scss \
-    | node_modules/.bin/node-sass \
-    | node_modules/.bin/postcss \
-    > /build/static/style.css
+COPY --from=images /build/templates/frame.tpl /build/templates/
+RUN sed -i "s/script\.js/$(ls /build/static/script* | xargs basename)/" /build/templates/frame.tpl \
+    && sed -i "s/style\.css/$(ls /build/static/style* | xargs basename)/" /build/templates/frame.tpl
 
 ###################################
 FROM amd64/alpine:3.10
@@ -146,10 +123,9 @@ RUN adduser -D -H -s /bin/sh -u 1078 user
 
 COPY --from=backend /build /build
 COPY --from=countryflag /build /build
-COPY --from=image /build /build
-COPY --from=script /build /build
-COPY --from=template /build /build
-COPY --from=style /build /build
+COPY --from=templates /build /build
+COPY --from=images /build /build
+COPY --from=scriptstyle /build /build
 
 COPY start.sh /
 RUN chmod +x /start.sh

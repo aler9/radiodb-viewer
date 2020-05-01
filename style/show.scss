@@ -1,4 +1,6 @@
 
+@import "_variables.scss";
+
 #show {
     margin: auto;
     text-align: center;
@@ -13,7 +15,7 @@
     }
 
     .info ul {
-        @include list;
+        @mixin list;
 
         li {
             &.tour img, &.country img {
@@ -30,14 +32,14 @@
     }
 
     .bootlegs > div {
-        @include tabular;
+        @mixin tabular;
         font-size: 95%;
         a {
-            @include tablet {
+            @mixin tablet {
                 padding: 20px 0;
             }
             > span {
-                @include not_tablet {
+                @mixin not_tablet {
                     padding: 20px 0;
                     &:not(:last-child) {
                         padding-right: 25px;
@@ -49,13 +51,13 @@
                         text-align: left;
                     }
                     &.duration, &.res, &.size {
-                        white-space: nowrap; // forbid newlines
+                        white-space: nowrap; /* forbid newlines */
                     }
                     &.size {
                         text-align: right;
                     }
                 }
-                @include tablet {
+                @mixin tablet {
                     &.name {
                         padding-bottom: 10px;
                     }

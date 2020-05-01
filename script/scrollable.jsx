@@ -4,6 +4,9 @@ import { findDOMNode } from "react-dom"
 
 import { Touchable } from "./various.jsx"
 
+import "./scrollable.scss"
+
+
 export class Scrollable extends Component {
     state = {
         scrollbarPos: 0,

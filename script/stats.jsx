@@ -1,6 +1,9 @@
 
 import Chart from "chart.js"
 
+import "./stats.scss"
+
+
 window.addEventListener("pjax-load", () => {
     if(!document.getElementById("stats")) {
         return

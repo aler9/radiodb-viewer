@@ -4,6 +4,9 @@ import React, { Component } from "react"
 import { DynamicReactRender, debounce } from "./various.jsx"
 import { TextInput } from "./inputs.jsx"
 
+import "./front.scss"
+
+
 export class Search extends Component {
     state = {
         query: "",

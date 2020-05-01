@@ -25,14 +25,14 @@ format:
 
 BUILD = docker build . \
     --build-arg BUILD_MODE=$(1) \
-    -t radiodb-viewer-$(1)
+    -t radiodb-viewer-$@
 
 dev:
 	docker run --rm -it -v radiodb:/out amd64/alpine:3.8 \
 	sh -c "apk add curl && curl --compressed -o/out/radiodb.json https://radiodb.freeddns.org/dumpget"
 
 	while true; do \
-		$(call BUILD,dev) \
+		$(call BUILD,development) \
 		&& ( docker kill radiodb-viewer-dev >/dev/null 2>&1 || true ) \
 		&& ( docker run --rm \
 		--read-only \
@@ -44,4 +44,4 @@ dev:
 	done
 
 prod:
-	$(call BUILD,prod)
+	$(call BUILD,production)

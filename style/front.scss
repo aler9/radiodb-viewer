@@ -1,7 +1,9 @@
 
+@import "_variables.scss";
+
 #front {
     text-align: center;
-    @include not_tablet {
+    @mixin not_tablet {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -13,10 +15,10 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        @include not_tablet {
+        @mixin not_tablet {
             height: 100%;
         }
-        @include tablet {
+        @mixin tablet {
             max-width: 370px;
             margin: auto;
             padding: 0 10px;
@@ -28,13 +30,13 @@
             img {
                 width: 100%;
                 height: auto;
-                @include not_tablet {
+                @mixin not_tablet {
                     max-width: 375px;
                 }
             }
         }
         .search {
-            @include tablet {
+            @mixin tablet {
                 padding: 0 5px;
             }
 
@@ -42,10 +44,10 @@
                 position: relative;
                 margin: auto;
                 margin-bottom: 45px;
-                @include not_tablet {
+                @mixin not_tablet {
                     max-width: 360px;
                 }
-                @include tablet {
+                @mixin tablet {
                     margin-bottom: 40px;
                 }
 
@@ -92,19 +94,19 @@
             margin-left: auto;
             margin-top: 0;
 
-            @include not_tablet {
+            @mixin not_tablet {
                 display: flex;
                 width: 600px;
                 margin-bottom: 35px;
             }
-            @include tablet {
+            @mixin tablet {
                 width: 100%;
                 margin-bottom: 40px;
             }
 
             > div.shows, > div.bootlegs {
                 word-wrap: break-word;
-                @include not_tablet {
+                @mixin not_tablet {
                     width: 50%;
                     padding: 0 25px;
                 }
@@ -116,12 +118,12 @@
                 }
                 .list {
                     a {
-                        @include not_tablet {
+                        @mixin not_tablet {
                             display: flex;
                             align-items: center;
                             height: 65px;
                         }
-                        @include tablet {
+                        @mixin tablet {
                             display: block;
                             padding: 4px 0;
                             border-bottom: 1px solid $sep_color;
@@ -133,7 +135,7 @@
                         span {
                             word-wrap: break-word;
                             font-size: 90%;
-                            @include tablet {
+                            @mixin tablet {
                                 display: block;
                                 margin: auto;
                             }
@@ -147,7 +149,7 @@
                                 }
                             }
                             &.title {
-                                @include not_tablet {
+                                @mixin not_tablet {
                                     width: calc(100% - 45px);
                                 }
                             }
@@ -156,25 +158,25 @@
                 }
             }
             > div.shows {
-                @include not_tablet {
+                @mixin not_tablet {
                     text-align: right;
                     a {
                         flex-direction: row-reverse;
                     }
                 }
-                @include tablet {
+                @mixin tablet {
                     margin-bottom: 45px;
                 }
             }
             > div.bootlegs {
-                @include not_tablet {
+                @mixin not_tablet {
                     text-align: left;
                 }
             }
             > div.sep {
                 border-left: 1px solid $sep_color;
                 width: 0;
-                @include tablet {
+                @mixin tablet {
                     display: none;
                 }
             }

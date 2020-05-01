@@ -2,6 +2,7 @@
 import React, { Component } from "react"
 import { render, unmountComponentAtNode, findDOMNode } from "react-dom"
 
+
 export const isIE = (navigator.userAgent.indexOf("MSIE") !== -1 || navigator.appVersion.indexOf("Trident/") > -1)
 const supportsTouch = (window.ontouchstart !== undefined) || navigator.msMaxTouchPoints
 

@@ -4,6 +4,9 @@ import { findDOMNode } from "react-dom"
 
 import { debounce, urlParamsEncode } from "./various.jsx"
 
+import "./infinitelist.scss"
+
+
 export class InfiniteList extends Component {
     state = {
         state: "loading", // loading, waitscroll, fullyloaded, noresults

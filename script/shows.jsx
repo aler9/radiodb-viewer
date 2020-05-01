@@ -5,6 +5,9 @@ import { DynamicReactRender, urlParamsDecode } from "./various.jsx"
 import { InfiniteList } from "./infinitelist.jsx"
 import { Select, MultiChoice, RangeSelect, TextInput } from "./inputs.jsx"
 
+import "./shows.scss"
+
+
 class Shows extends Component {
     static paramTypes = {
         sort: "string",

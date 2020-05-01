@@ -42,7 +42,7 @@ func main() {
 	defer conn.Close()
 	h.dbClient = shared.NewDatabaseClient(conn)
 
-	h.templates = templateLoadAll("/build/template")
+	h.templates = templateLoadAll("/build/templates")
 
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()

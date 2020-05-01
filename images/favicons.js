@@ -1,16 +1,15 @@
-
-const favicons = require('favicons'),
-    path = require('path'),
-    { promisify } = require('util'),
-    readFile = promisify(require('fs').readFile),
-    writeFile = promisify(require('fs').writeFile),
-    mkdir = promisify(require('fs').mkdir);
+const favicons = require('favicons');
+const path = require('path');
+const { promisify } = require('util');
+const readFile = promisify(require('fs').readFile);
+const writeFile = promisify(require('fs').writeFile);
+const mkdir = promisify(require('fs').mkdir);
 
 const APP_NAME = "RadioDB";
 const SRC_FILE = "favicon.svg";
 const DEST_DIR = "/build/static/fav";
-const URL_PREFIX = "/static/fav";
-const TEMPLATE_FILE = "/build/template/frame.tpl";
+const URL_PREFIX = "static/fav";
+const TEMPLATE_FILE = "/build/templates/frame.tpl";
 
 (async () => {
     await mkdir(DEST_DIR, { recursive: true });
@@ -19,6 +18,7 @@ const TEMPLATE_FILE = "/build/template/frame.tpl";
         path: URL_PREFIX,
         appName: APP_NAME,
         icons: {
+            android: false,
             appleStartup: false,
             coast: false,
             yandex: false,

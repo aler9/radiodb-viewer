@@ -1,13 +1,15 @@
 
+@import "_variables.scss";
+
 #bootlegs > div {
-    @include controlledlist;
+    @mixin controlledlist;
     font-size: 90%;
 
     a.entry {
         > span {
             &:not(:last-child) {
                 padding-right: 30px;
-                @include tablet {
+                @mixin tablet {
                     padding-right: 10px;
                 }
             }
@@ -38,9 +40,9 @@
             }
             &.duration, &.res, &.size {
                 width: 1%;
-                white-space: nowrap; // forbid newlines
+                white-space: nowrap; /* forbid newlines */
                 text-align: right;
-                @include tablet {
+                @mixin tablet {
                     display: none;
                 }
             }

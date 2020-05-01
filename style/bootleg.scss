@@ -1,4 +1,6 @@
 
+@import "_variables.scss";
+
 #bootleg {
     margin: auto;
     text-align: center;
@@ -13,7 +15,7 @@
     }
 
     .info ul {
-        @include list;
+        @mixin list;
 
         li {
             &.show {
@@ -40,7 +42,7 @@
 
     .finfo > div {
         font-size: 90%;
-        font-family: 'Cutive Mono', monospace;
+        font-family: "Cutive Mono", monospace;
 
         > .scrollable > .content {
             max-height: 300px;
@@ -58,11 +60,11 @@
         }
 
         .list {
-            @include tabular;
+            @mixin tabular;
             font-size: 95%;
             a {
                 > span {
-                    @include not_tablet {
+                    @mixin not_tablet {
                         &:not(:last-child) {
                             padding-right: 25px;
                         }
@@ -73,7 +75,7 @@
                             text-align: left;
                         }
                         &.duration, &.size {
-                            white-space: nowrap; // forbid newlines
+                            white-space: nowrap; /* forbid newlines */
                         }
                         &.tth {
                             text-align: right;
@@ -84,7 +86,7 @@
                     }
                     &.tth {
                         font-size: 90%;
-                        font-family: 'Cutive Mono', monospace;
+                        font-family: "Cutive Mono", monospace;
                     }
                 }
             }

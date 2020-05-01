@@ -1,4 +1,6 @@
 
+@import "_variables.scss";
+
 .infinitelist {
     &.loading:after {
         content: "loading...";

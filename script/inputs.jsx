@@ -5,6 +5,9 @@ import { findDOMNode } from "react-dom"
 import { Scrollable } from "./scrollable.jsx"
 import { Touchable } from "./various.jsx"
 
+import "./inputs.scss"
+
+
 export class Select extends Component {
     static defaultProps = {
         disabled: false,

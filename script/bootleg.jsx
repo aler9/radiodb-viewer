@@ -4,6 +4,9 @@ import React, { Component } from "react"
 import { DynamicReactRender } from "./various.jsx"
 import { Scrollable } from "./scrollable.jsx"
 
+import "./bootleg.scss"
+
+
 class BootlegFinfo extends Component {
     render() {
         return <Scrollable>

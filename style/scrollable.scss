@@ -1,11 +1,13 @@
 
+@import "_variables.scss";
+
 .scrollable {
     overflow-x: hidden;
     position: relative;
 
     > .content {
         overflow-y: scroll;
-        -webkit-overflow-scrolling: touch; // enable momentum scrolling on ios
+        -webkit-overflow-scrolling: touch; /* enable momentum scrolling on ios */
         padding-right: 10px;
     }
     > .scrollbar {

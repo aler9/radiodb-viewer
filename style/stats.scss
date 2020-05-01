@@ -1,4 +1,6 @@
 
+@import "_variables.scss";
+
 #stats {
     margin: auto;
     text-align: center;
@@ -13,7 +15,7 @@
     }
 
     ul {
-        @include list;
+        @mixin list;
     }
 
     canvas {

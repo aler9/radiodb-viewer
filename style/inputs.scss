@@ -1,4 +1,6 @@
 
+@import "_variables.scss";
+
 .button-clear {
     display: block;
     width: 100%;
@@ -12,7 +14,7 @@
     font-weight: 400;
     user-select: none;
     &:hover {
-        @include link_hover;
+        @mixin link_hover;
     }
 }
 
@@ -67,14 +69,14 @@
     position: relative;
 
     input {
-        // normalization
+        /* normalization */
         appearance: none;
         border: none;
         border-radius: 0;
         box-shadow: none;
         font-family: inherit;
         font-size: inherit;
-        &::-ms-clear { // disable the native clear button in IE/edge
+        &::-ms-clear { /* disable the native clear button in IE/edge */
             display: none;
         }
 
@@ -106,7 +108,7 @@ $slider_height: 6px;
 
 .range-select {
     user-select: none;
-    padding-bottom: ($knob_size - $slider_height)/2;
+    padding-bottom: calc(($knob_size - $slider_height) / 2);
     display: flex;
     flex-wrap: wrap;
 
@@ -119,8 +121,8 @@ $slider_height: 6px;
 
     .slider {
         width: 100%;
-        margin-left: $knob_size/2;
-        margin-right: $knob_size/2;
+        margin-left: calc($knob_size / 2);
+        margin-right: calc($knob_size / 2);
         margin-top: 10px;
         height: $slider_height;
         background: rgb(140, 140, 140);
@@ -140,18 +142,18 @@ $slider_height: 6px;
                 margin: auto;
                 width: $knob_size;
                 height: $knob_size;
-                border-radius: $knob_size/2;
+                border-radius: calc($knob_size / 2);
                 background: white;
                 cursor: pointer;
                 border: 1px solid black;
             }
             .knob-left {
                 left: 0;
-                margin-left: - $knob_size/2;
+                margin-left: calc($knob_size * -1 / 2);
             }
             .knob-right {
                 right: 0;
-                margin-right: - $knob_size/2;
+                margin-right: calc($knob_size * -1 / 2);
             }
         }
     }
@@ -172,7 +174,7 @@ $slider_height: 6px;
         height: 28px;
         overflow: hidden;
         &:hover {
-            @include link_hover;
+            @mixin link_hover;
         }
 
         .checkbox {
@@ -195,7 +197,7 @@ $slider_height: 6px;
             right: 0;
             background: url(/static/checked.svg) no-repeat;
             background-size: 100% 100%;
-            background-position: 18px 18px; // preload and hide
+            background-position: 18px 18px; /* preload and hide */
         }
         &.checked .checkbox:after {
             background-position: 0 0;

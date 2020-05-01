@@ -1,28 +1,15 @@
 
-@import "reset.scss";
-@import "animations.scss";
+@import "_variables.scss";
 
-@import url('https://fonts.googleapis.com/css?family=Muli:200,300,400,700&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Cutive+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Muli:200,300,400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Cutive+Mono&display=swap");
 
-$page_max_width: 1100px;
-$header_height: 80px;
-$header_height_tablet: 60px;
-
-$sep_color: rgb(120, 120, 120);
-$white_hover: rgba(0, 0, 0, 0.15);
-
-$amsp1: rgb(240, 240, 240);
-$amsp2: #191919;
-
-@mixin tablet {
-    @media (max-width: 768.99999px) {
-        @content
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
     }
-}
-@mixin not_tablet {
-    @media (min-width: 769px) {
-        @content
+    100% {
+        opacity: 1;
     }
 }
 
@@ -33,7 +20,7 @@ html, body, body > .inner {
     height: 100%;
 }
 body {
-    font-family: 'Muli', sans-serif;
+    font-family: "Muli", sans-serif;
     font-size: 14px;
     font-weight: 300;
     line-height: 1.5;
@@ -47,19 +34,16 @@ body {
 h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
-@mixin link_hover {
-    opacity: .6;
-}
 a {
     color: inherit;
     text-decoration: none;
     &:hover {
-        @include link_hover;
+        @mixin link_hover;
     }
 }
 
 header {
-    @include not_tablet {
+    @mixin not_tablet {
         height: $header_height;
         display: flex;
         justify-content: center;
@@ -73,19 +57,18 @@ header {
     label {
         display: none;
         cursor: pointer;
-        width: 40px;
-        height: 40px;
-        margin-left: 20px;
-        margin-top: ($header_height_tablet - 40px - 2px) / 2;
-        margin-bottom: ($header_height_tablet - 40px - 2px) / 2;
+        width: 70px;
+        height: $header_height_tablet;
+        padding: 8px;
+
         img {
             width: 100%;
             height: 100%;
         }
     }
-    @include tablet {
+    @mixin tablet {
         label {
-            display: block;
+            display: flex;
         }
         #menu-toggle:checked + label {
             background: rgb(100, 100, 100);
@@ -99,10 +82,10 @@ header {
         text-transform: uppercase;
         font-weight: 400;
         font-size: 13px;
-        @include not_tablet {
+        @mixin not_tablet {
             height: 100%;
         }
-        @include tablet {
+        @mixin tablet {
             display: none;
             animation: .25s fadeIn;
             background: rgb(100, 100, 100);
@@ -110,23 +93,23 @@ header {
 
         ul {
             height: 100%;
-            @include not_tablet {
+            @mixin not_tablet {
                 display: flex;
             }
         }
         li {
-            @include tablet {
+            @mixin tablet {
                 display: block;
             }
         }
         a {
-            @include not_tablet {
+            @mixin not_tablet {
                 height: 100%;
                 padding: 0 25px;
                 display: block;
                 line-height: $header_height;
             }
-            @include tablet {
+            @mixin tablet {
                 display: block;
                 padding: 30px 0;
                 text-align: center;
@@ -137,7 +120,7 @@ header {
             }
         }
         a.current {
-            @include not_tablet {
+            @mixin not_tablet {
                 position: relative;
                 &:after {
                     content: "";
@@ -155,7 +138,7 @@ header {
 
     a.logo {
         display: none;
-        @include tablet {
+        @mixin tablet {
             display: flex;
         }
         align-items: center;
@@ -175,15 +158,16 @@ header {
 }
 
 main {
-    display: block; // for ie11
+    display: block; /* for ie11 */
     max-width: $page_max_width;
     margin: auto;
-    min-height: calc(100% - #{$header_height});
+    min-height: calc(100% - $header_height);
     position: relative;
     padding: 0 20px;
     padding-top: 40px;
     padding-bottom: 40px;
-    @include tablet {
+    @mixin tablet {
+        min-height: calc(100% - $header_height_tablet);
         padding-left: 10px;
         padding-right: 10px;
         border-top: 1px solid $sep_color;
@@ -200,7 +184,7 @@ main {
             font-size: 18px;
             color: rgb(200, 200, 200);
 
-            @include tablet {
+            @mixin tablet {
                 font-size: 15px;
             }
         }
@@ -209,7 +193,7 @@ main {
             font-size: 38px;
             text-transform: uppercase;
             margin-bottom: 20px;
-            @include tablet {
+            @mixin tablet {
                 font-size: 28px;
             }
         }
@@ -235,16 +219,11 @@ footer {
     }
 }
 
-@import "infinitelist.scss";
-@import "inputs.scss";
-@import "scrollable.scss";
-@import "controlledlist.scss";
-@import "various.scss";
-
-@import "front.scss";
-@import "bootleg.scss";
-@import "bootlegs.scss";
-@import "show.scss";
-@import "shows.scss";
-@import "stats.scss";
-@import "dump.scss";
+img.media-type-icon {
+    width: 20px;
+    height: 20px;
+    display: inline;
+    margin-top: -3px;
+    vertical-align: middle;
+    margin-right: 2px;
+}
