@@ -28,6 +28,8 @@ BUILD = docker build . \
     -t radiodb-viewer-$@
 
 dev:
+	$(if $(shell which inotifywait),,$(error inotify-tools non trovato. installare con apt install -y inotify-tools))
+
 	docker run --rm -it -v radiodb:/out amd64/alpine:3.8 \
 	sh -c "apk add curl && curl --compressed -o/out/radiodb.json https://radiodb.freeddns.org/dumpget"
 
