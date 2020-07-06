@@ -47,7 +47,6 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 
-	// populate router
 	s := router.Group("/static/")
 	if BUILD_MODE == "prod" {
 		s.Use(func(c *gin.Context) {
@@ -55,6 +54,7 @@ func main() {
 		})
 	}
 	s.Static("/", "/build/static")
+
 	router.GET("/", h.onPageFront)
 	router.POST("/data/search", h.onDataSearch)
 	router.GET("/shows", h.onPageShows)
