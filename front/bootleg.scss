@@ -1,0 +1,96 @@
+
+@import "_variables.scss";
+
+#bootleg {
+    margin: auto;
+    text-align: center;
+
+    section {
+        margin-bottom: 35px;
+        h2 {
+            text-transform: uppercase;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+    }
+
+    .info ul {
+        @mixin list;
+
+        li {
+            &.show {
+                > span:first-child {
+                    vertical-align: top;
+                }
+                a {
+                    display: block;
+                    img {
+                        display: inline-block;
+                        width: 22px;
+                        height: 22px;
+                        vertical-align: top;
+                        margin-bottom: 3px;
+                        margin-right: 3px;
+                    }
+                    span {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    .finfo {
+        .scrollable > .content {
+            max-height: 300px;
+            font-size: 90%;
+            font-family: "Cutive Mono", monospace;
+            white-space: pre-wrap; // trasform \n into <br />
+        }
+    }
+
+    .files {
+        .note {
+            font-size: 90%;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            a {
+                text-decoration: underline;
+            }
+        }
+
+        .list {
+            @mixin tabular;
+            font-size: 95%;
+            a {
+                > span {
+                    @mixin not_tablet {
+                        &:not(:last-child) {
+                            padding-right: 25px;
+                        }
+                        &:not(:first-child) {
+                            width: 1%;
+                        }
+                        &.name {
+                            text-align: left;
+                        }
+                        &.duration, &.size {
+                            white-space: nowrap; /* forbid newlines */
+                        }
+                        &.tth {
+                            text-align: right;
+                        }
+                    }
+                    &.name {
+                        word-break: break-all;
+                    }
+                    &.tth {
+                        font-size: 90%;
+                        font-family: "Cutive Mono", monospace;
+                    }
+                }
+            }
+        }
+    }
+
+}
