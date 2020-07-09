@@ -79,7 +79,7 @@ RUN yarn install
 
 COPY --from=back /build/frame.html /build/
 COPY front/images/favicon.svg ./
-COPY front/images/favicons.js ./
+COPY front/favicons.js ./
 RUN node favicons.js
 
 COPY --from=countryflags /countryflags ./images/countryflags
