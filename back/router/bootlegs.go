@@ -59,8 +59,8 @@ func (h *router) onDataBootlegs(ctx *gin.Context) {
 				d, _ := time.Parse("2006-01-02", s.Date)
 
 				ret = append(ret, gin.H{
-					"id":      b.Id,
-					"title": b.Name,
+					"id":        b.Id,
+					"title":     b.Name,
 					"name":      b.Name,
 					"firstSeen": formatFirstSeen(b.FirstSeen, "2 Jan 2006"),
 					"type":      b.Type,

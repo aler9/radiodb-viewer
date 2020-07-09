@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
+	"net"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -18,11 +20,27 @@ const (
 
 var BUILD_MODE = ""
 
+func waitPort(label string, addr string) {
+	for {
+		fmt.Println("waiting " + label + "...")
+		conn, err := net.DialTimeout("tcp", addr, 1*time.Second)
+		if err != nil {
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		fmt.Println("ok")
+		conn.Close()
+		break
+	}
+}
+
 type router struct {
-	dbClient  shared.DatabaseClient
+	dbClient shared.DatabaseClient
 }
 
 func main() {
+	waitPort("db", DB_ADDR)
+
 	rand.Seed(time.Now().UnixNano())
 	log.SetFlags(log.LstdFlags)
 

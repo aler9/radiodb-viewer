@@ -1,5 +1,6 @@
 
-GO_BASE_IMAGE = amd64/golang:1.12-alpine3.10
+ALPINE_BASE_IMAGE = amd64/alpine:3.12
+GO_BASE_IMAGE = amd64/golang:1.14-alpine3.12
 
 help:
 	@echo "usage: make [action]"
@@ -17,7 +18,7 @@ mod-tidy:
 	RUN apk add git \n\
 	" | docker build - -t rdbviewer-modtidy
 	docker run --rm -it -v $(PWD):/s rdbviewer-modtidy \
-	sh -c "cd /s/back && go get -m ./... && go mod tidy"
+	sh -c "cd /s/back && go get ./... && go mod tidy"
 
 format:
 	docker run --rm -it -v $(PWD):/s $(GO_BASE_IMAGE) \
@@ -30,7 +31,7 @@ BUILD = docker build . \
 dev:
 	$(if $(shell which inotifywait),,$(error inotify-tools non trovato. installare con apt install -y inotify-tools))
 
-	docker run --rm -it -v radiodb:/out amd64/alpine:3.8 \
+	docker run --rm -it -v radiodb:/out $(ALPINE_BASE_IMAGE) \
 	sh -c "apk add curl && curl --compressed -o/out/radiodb.json https://radiodb.freeddns.org/dumpget"
 
 	while true; do \

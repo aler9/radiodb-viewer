@@ -1,5 +1,5 @@
 ##################################
-FROM amd64/golang:1.12-alpine3.10 AS countrymeta
+FROM amd64/golang:1.14-alpine3.12 AS countrymeta
 
 RUN apk add --no-cache \
     git
@@ -51,7 +51,7 @@ RUN go build -ldflags "-X main.BUILD_MODE=$BUILD_MODE" -o /build/router ./router
 COPY back/frame.html /build/
 
 ##################################
-FROM amd64/golang:1.12-alpine3.10 AS countryflags
+FROM amd64/golang:1.14-alpine3.12 AS countryflags
 
 RUN apk add --no-cache \
     git
@@ -92,7 +92,7 @@ RUN sed -i "s/script\.js/$(ls /build/static/script* | xargs basename)/" /build/f
     && sed -i "s/style\.css/$(ls /build/static/style* | xargs basename)/" /build/frame.html
 
 ###################################
-FROM amd64/alpine:3.10
+FROM amd64/alpine:3.12
 
 RUN adduser -D -H -s /bin/sh -u 1078 user
 

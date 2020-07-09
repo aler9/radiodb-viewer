@@ -41,7 +41,9 @@ func main() {
 	db.load()
 
 	go db.serveUploader()
-	db.serveApi()
+	go db.serveApi()
+
+	select {}
 }
 
 func (db *database) load() {
@@ -122,7 +124,7 @@ func (db *database) serveUploader() {
 	router.POST("/upload", db.onUpload)
 
 	log.Printf("[db] serving uploader on %s", DB_UPLOADER_ADDR)
-	router.Run(DB_UPLOADER_ADDR)
+	panic(router.Run(DB_UPLOADER_ADDR))
 }
 
 func (db *database) serveApi() {
@@ -135,5 +137,5 @@ func (db *database) serveApi() {
 	}
 
 	log.Printf("[db] serving api on %s", DB_API_ADDR)
-	server.Serve(listener)
+	panic(server.Serve(listener))
 }
