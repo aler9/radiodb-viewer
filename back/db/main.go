@@ -34,7 +34,6 @@ type database struct {
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	log.SetFlags(log.LstdFlags)
 
 	db := &database{}
 

@@ -13,7 +13,7 @@ COPY back/gencountrymeta.go ./
 RUN go run gencountrymeta.go
 
 ###################################
-FROM amd64/golang:1.12-alpine3.10 AS back
+FROM amd64/golang:1.14-alpine3.12 AS back
 
 RUN apk add --no-cache \
     git \

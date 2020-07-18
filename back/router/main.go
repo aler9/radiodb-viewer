@@ -42,7 +42,6 @@ func main() {
 	waitPort("db", DB_ADDR)
 
 	rand.Seed(time.Now().UnixNano())
-	log.SetFlags(log.LstdFlags)
 
 	h := &router{}
 
