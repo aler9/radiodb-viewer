@@ -15,7 +15,7 @@ import (
 
 const (
 	HTTP_ADDR = ":7446"
-	DB_ADDR   = "localhost:4002"
+	DB_ADDR   = "127.0.0.1:4002"
 )
 
 var BUILD_MODE = ""
@@ -23,7 +23,7 @@ var BUILD_MODE = ""
 func waitPort(label string, addr string) {
 	for {
 		fmt.Println("waiting " + label + "...")
-		conn, err := net.DialTimeout("tcp", addr, 1*time.Second)
+		conn, err := net.DialTimeout("tcp4", addr, 1*time.Second)
 		if err != nil {
 			time.Sleep(1 * time.Second)
 			continue
