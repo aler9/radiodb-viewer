@@ -45,6 +45,3 @@ dev:
 		radiodb-viewer-dev & ); \
 		inotifywait -qre close_write ./*/; \
 	done
-
-prod:
-	$(call BUILD,production)
